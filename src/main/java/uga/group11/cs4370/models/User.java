@@ -21,9 +21,11 @@ public class User {
     public String getUserId() {
         return user_id;
     }
+
     public String getUsername() {
         return username;
     }
+
     public String getProfileImagePath() {
         return profileImagePath;
     }
