@@ -17,26 +17,16 @@ import uga.group11.cs4370.services.UserService;
  */
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
-
+/* 
     // This service enables user services.
     private UserService userService;
 
-    /**
-     * This is an example of injecting an object as a dependency.
-     * In this case Spring Boot will initialize a UserService
-     * instance and provide it as AuthInterceptor is initialized.
-     * Note: AuthInterceptor is also initialized by Spring Boot.
-     * This is a part of inversion of control.
-     */
+  
     @Autowired
     public AuthInterceptor(UserService userService) {
         this.userService = userService;
     }
 
-    /**
-     * This is the overriden method that does the actual redirection
-     * if the user is not logged in.
-     */
     @Override
     public boolean preHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler) throws Exception {
@@ -47,4 +37,5 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         return true;
     }
+  */
 }

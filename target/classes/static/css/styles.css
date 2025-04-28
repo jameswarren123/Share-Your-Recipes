@@ -207,3 +207,8 @@ nav a:hover {
 .link {
   margin-left: 16pt;
 }
+
+.formfield {
+  display: flex;
+  align-items: center;
+}
