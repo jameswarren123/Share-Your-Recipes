@@ -1,0 +1,13 @@
+uga\group11\cs4370\controllers\ChefsController.class
+uga\group11\cs4370\controllers\FavoritesController.class
+uga\group11\cs4370\models\ExpandedRecipe.class
+uga\group11\cs4370\controllers\HomeController.class
+uga\group11\cs4370\models\Chefs.class
+uga\group11\cs4370\components\AuthInterceptor.class
+uga\group11\cs4370\controllers\RecipeController.class
+uga\group11\cs4370\App.class
+uga\group11\cs4370\config\WebConfig.class
+uga\group11\cs4370\models\User.class
+uga\group11\cs4370\models\Recipe.class
+uga\group11\cs4370\services\ChefsService.class
+uga\group11\cs4370\services\UserService.class
