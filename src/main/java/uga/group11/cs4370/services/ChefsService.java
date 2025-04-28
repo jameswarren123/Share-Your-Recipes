@@ -1,7 +1,47 @@
 package uga.group11.cs4370.services;
 
-public class ChefsService {
-    
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.sql.DataSource;
+import javax.xml.crypto.Data;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.SessionScope;
+
+import uga.group11.cs4370.models.Recipe;
+
+@Service
+@SessionScope
+public class ChefsService {
+    private final DataSource dataSource;
+    
+    @Autowired
+    public ChefsService(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
+
+    public boolean createRecipe(String title, String directions, int estim_time) throws SQLException{
+        final String postSql = "insert into recipe (title,directions,estim_time) values (?,?,?)";
+   
+
+        try(Connection conn = dataSource.getConnection();
+        PreparedStatement sqlStmt = conn.prepareStatement(postSql)){
+            sqlStmt.setString(1, title);
+            sqlStmt.setString(2, directions);
+            sqlStmt.setInt(3, estim_time);
+
+            int rowsAffected = sqlStmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+        
+
+    }
     
 }
