@@ -5,7 +5,7 @@ public class ExpandedRecipe extends Recipe {
 
     public ExpandedRecipe(String recipe_id, String title, String imagePath, String estim_time, String rating,
             String directions) {
-        super(recipe_id, title, imagePath, estim_time, rating);
+        super(recipe_id, title, directions, imagePath, estim_time, rating);
         this.directions = directions;
     }
 
