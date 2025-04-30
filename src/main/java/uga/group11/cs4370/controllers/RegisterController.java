@@ -35,6 +35,16 @@ public class RegisterController {
         return mv;
     }
 
+    private boolean isValidPassword(String password) {
+        return password != null &&
+               password.length() >= 9 &&
+               password.matches(".*[A-Z].*") &&       // at least one uppercase
+               password.matches(".*[a-z].*") &&       // at least one lowercase
+               password.matches(".*\\d.*") &&         // at least one digit
+               password.matches(".*[^a-zA-Z0-9].*");  // at least one non-alphanumeric
+    }
+    
+
     @PostMapping
     public String register(@RequestParam("username") String username,
             @RequestParam("password") String password,
@@ -43,10 +53,10 @@ public class RegisterController {
 
         // Password restrictions go here:
         //TEMP
-        if (password.trim().length() < 3) {
+        if (!this.isValidPassword(password)) {
             // If the password is too short redirect to the registration page
             // with an error message.
-            String message = URLEncoder.encode("Passwords should have at least 3 nonempty letters.", "UTF-8");
+            String message = URLEncoder.encode("Passwords must contain 1 uppercase letter, 1 lowercase letter, 1 number, 1 non-aplhanumeric character, and be of length 9 or greater.", "UTF-8");
             return "redirect:/register?error=" + message;
         }
         // End password tests
