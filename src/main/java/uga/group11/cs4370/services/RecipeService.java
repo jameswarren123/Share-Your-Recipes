@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import uga.group11.cs4370.models.ExpandedRecipe;
 import uga.group11.cs4370.models.Recipe;
 import uga.group11.cs4370.models.User;
 
@@ -60,7 +61,7 @@ public class RecipeService {
                     String title = rs.getString("title");
                     String directions = rs.getString("directions");
                     String image = rs.getString("image");
-                    String estim_time = rs.getString("estim_time");
+                    int estim_time = rs.getInt("estim_time");
 
                     // Create a new Recipe object and return it
                     toRet = new Recipe(rec_id, title, directions, image, estim_time, rating);
@@ -82,5 +83,28 @@ public class RecipeService {
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         }
+    }
+
+    public List<ExpandedRecipe> getUserRecipes(String userId) throws SQLException {
+        List<ExpandedRecipe> recipes = new ArrayList<>();
+        final String sql = "select * from recipe where user_id = ?;";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String rec_id = rs.getString("rec_id");
+                    String title = rs.getString("title");
+                    String directions = rs.getString("directions");
+                    String image = rs.getString("image");
+                    int estim_time = rs.getInt("estim_time");
+                    String rating = this.getRating(rec_id);
+                    recipes.add(new ExpandedRecipe(rec_id, title, image, estim_time, rating, directions));
+                }
+            }
+        }
+        
+        return recipes;
     }
 }

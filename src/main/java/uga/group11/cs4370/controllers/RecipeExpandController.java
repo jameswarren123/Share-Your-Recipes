@@ -20,8 +20,6 @@ import uga.group11.cs4370.services.ChefsService;
 import uga.group11.cs4370.services.UserService;
 import uga.group11.cs4370.services.RecipeService;
 
-//import uga.group11.cs4370.services.ChefsService;
-
 @Controller
 @RequestMapping("/rexpand")
 public class RecipeExpandController {
@@ -46,7 +44,7 @@ public class RecipeExpandController {
             Recipe recipe = recipeService.getRecipe(rec_id);
             mv.addObject("recipe", recipe);
         } catch (SQLException e) {
-            System.out.println("failed to get comments");
+            System.out.println("failed to get recipe");
         }
 
         String errorMessage = error;
@@ -66,13 +64,13 @@ public class RecipeExpandController {
                 return "redirect:/rexpand/" + rec_id;
             } else {
                 String message = URLEncoder.encode("Failed to rate the recipe. Please try again.",
-                StandardCharsets.UTF_8);
+                        StandardCharsets.UTF_8);
                 return "redirect:/?error=" + message;
             }
         } catch (Exception e) {
             // Redirect the user with an error message if there was an error.
             String message = URLEncoder.encode("Failed to rate the recipe. Please try again.",
-                StandardCharsets.UTF_8);
+                    StandardCharsets.UTF_8);
             return "redirect:/rexpand/" + rec_id + "?error=" + message;
         }
     }
