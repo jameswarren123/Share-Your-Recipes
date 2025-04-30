@@ -1,26 +1,38 @@
 
-        <div class="post-form">
+        <div class="recipe_form">
         <form method="post" action="/recipe/createrecipe">
-             <div class="formfield">
-             <label>Title: </label> 
-             <textarea name="titleText" class="framed" ></textarea>
+            <div class="label_space">
+             <label>Title</label> 
+             <div>
+             <textarea name="titleText"></textarea>
              </div>
-            <div class="formfield">
-             <label>Directions: </label>
-             <textarea name="directionsText" class="framed" ></textarea>
-              </div>
-             <div class="formfield">
-             <label>Image: </label>  
+             </div>
+             <div class="label_space">
+             <label>Directions</label>
+             <div>
+             <textarea class="directions_size" name="directionsText"></textarea>
+             </div>
+             </div>
+             <div class="label_space">
+             <label>Image</label>  
+             <div>
              <input
             type="file"
+            for="file-upload"
+            name="rec_img"
             accept="application/pdf, image/png, image/jpeg"
              />
-             </div> 
-             <div class="formfield">
-             <label>Estimated Time: </label>
-              <textarea name="timeText" class="framed" ></textarea>
              </div>
-            <button type="submit" class="action-button">Submit</button>
+             </div>
+             <div>
+             <label>Estimated Time</label>
+             <div>
+              <textarea name="timeText"></textarea>
+             </div>
+            </div>
+            <div class="rec_button">
+            <button type="submit">Submit</button>
+            </div>
         </form>
         <div class="clear"></div>
         </div>
