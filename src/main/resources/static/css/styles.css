@@ -3,7 +3,7 @@
   --frame-color: #98b1c6;
   --box-color: #fff;
   --action-item-color: #657786;
-  --highlight-color: #1da1f2;
+  --highlight-color: #e8eaec;
 }
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -20,7 +20,7 @@ nav {
 nav a {
   text-decoration: none;
   margin-right: 16pt;
-  color: var(--normal-text-color);
+  color: white;
   font-weight: bold;
   display: inline-block;
 }
@@ -33,6 +33,7 @@ nav a:hover {
 }
 .separator-bottom {
   border-bottom: 0.8pt solid var(--frame-color);
+  background-color: #ff9e42;
 }
 .title-bar {
   font-size: 12pt;
@@ -71,9 +72,10 @@ nav a:hover {
   margin-left: 0;
   margin-right: 0;
 }
-.content-center {
+.content-left {
   max-width: 480pt;
-  margin: 0 auto;
+  padding-left: 20px;
+  background-color: #ff9e42;
 }
 .container {
   max-width: 480pt;
@@ -211,4 +213,12 @@ nav a:hover {
 .formfield {
   display: flex;
   align-items: center;
+}
+
+.navbg {
+  background-color: #ff9e42;
+}
+
+.content_right {
+  justify-content: right;
 }
