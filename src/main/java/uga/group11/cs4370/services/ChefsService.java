@@ -43,5 +43,27 @@ public class ChefsService {
         
 
     }
+
+    public List<Recipe> getCreatedRecipes() throws SQLException{
+        final String sql = "select * from recipe"; 
+        List<Recipe> recipes = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String directions = rs.getString("directions");
+                    String title = rs.getString("title");
+                    String estim_time = rs.getString("estim_time");
+
+                    recipes.add(new Recipe(null, title, directions, null, estim_time, null));
+                }
+            }
+
+        }
+        
+        return recipes;
+
+    }
     
 }
