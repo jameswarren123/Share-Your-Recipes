@@ -34,10 +34,10 @@ public class RecipeService {
         final String sql = "select round(avg(rating), 1) as average_rating from ratings where rec_id = ?;";
 
         try (Connection conn = dataSource.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, rec_id);
-            try (ResultSet rs = pstmt.executeQuery()) { 
-                while(rs.next()){
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
                     float averageRating = rs.getFloat("average_rating");
                     return String.format("%.1f", averageRating);
                 }
@@ -89,9 +89,9 @@ public class RecipeService {
         List<ExpandedRecipe> recipes = new ArrayList<>();
         final String sql = "select * from recipe where user_id = ?;";
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, userId);
-            
+
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     String rec_id = rs.getString("rec_id");
@@ -104,7 +104,29 @@ public class RecipeService {
                 }
             }
         }
-        
+
+        return recipes;
+    }
+
+    public List<ExpandedRecipe> getTopRecipes() throws SQLException {
+        List<ExpandedRecipe> recipes = new ArrayList<>();
+        final String sql = "SELECT r.rec_id, r.title, AVG(rt.rating) AS avg_rating FROM recipes r JOIN rating rt ON r.rec_id = rt.rec_id GROUP BY r.rec_id, r.title ORDER BY avg_rating DESC LIMIT 5;";
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String rec_id = rs.getString("rec_id");
+                    String title = rs.getString("title");
+                    String directions = rs.getString("directions");
+                    String image = rs.getString("image");
+                    int estim_time = rs.getInt("estim_time");
+                    String rating = this.getRating(rec_id);
+                    recipes.add(new ExpandedRecipe(rec_id, title, image, estim_time, rating, directions));
+                }
+            }
+        }
+
         return recipes;
     }
 }
