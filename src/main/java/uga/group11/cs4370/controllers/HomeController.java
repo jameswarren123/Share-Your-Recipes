@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
 import uga.group11.cs4370.services.ChefsService;
+import uga.group11.cs4370.services.UserService;
 import uga.group11.cs4370.models.Recipe;
 
 @Controller
@@ -24,10 +25,12 @@ public class HomeController {
 
 
     private final ChefsService chefsService; 
+    private final UserService userService;
 
     @Autowired
-    public HomeController(ChefsService chefsService){
+    public HomeController(ChefsService chefsService, UserService userService){
         this.chefsService = chefsService;
+        this.userService = userService;
     }
 
 @GetMapping
@@ -37,7 +40,7 @@ public ModelAndView webpage(@RequestParam(name = "error", required = false) Stri
    List<Recipe> recipes = new ArrayList<>();
 
     try{    
-       recipes = chefsService.getCreatedRecipes();
+       recipes = chefsService.getCreatedRecipes(userService.getLoggedInUser().getUserId());
     }catch(SQLException e){
        System.out.println("Failed to retrieve recipes");
     }

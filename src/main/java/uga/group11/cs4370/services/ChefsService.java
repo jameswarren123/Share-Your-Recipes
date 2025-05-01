@@ -29,15 +29,17 @@ public class ChefsService {
         this.dataSource = dataSource;
     }
 
-    public boolean createRecipe(String title, String directions, int estim_time, String imgPath) throws SQLException {
-        final String postSql = "insert into recipe (title,directions,estim_time,imgPath) values (?,?,?,?)";
+    public boolean createRecipe(String userId,String title, String directions, int estim_time) throws SQLException {
+        final String postSql = "insert into recipe (user_id,title,directions,estim_time) values (?,?,?,?)";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement sqlStmt = conn.prepareStatement(postSql)) {
-            sqlStmt.setString(1, title);
-            sqlStmt.setString(2, directions);
-            sqlStmt.setInt(3, estim_time);
-            sqlStmt.setString(4, imgPath);
+            sqlStmt.setString(1,userId);
+            sqlStmt.setString(2, title);
+            sqlStmt.setString(3, directions);
+            sqlStmt.setInt(4, estim_time);
+
+            
 
             int rowsAffected = sqlStmt.executeUpdate();
             return rowsAffected > 0;
@@ -45,22 +47,21 @@ public class ChefsService {
 
     }
 
-    public List<Recipe> getCreatedRecipes() throws SQLException {
-        final String sql = "select * from recipe";
+    public List<Recipe> getCreatedRecipes(String userId) throws SQLException {
+        final String sql = "select * from recipe where user_Id = ?";
         List<Recipe> recipes = new ArrayList<>();
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
+                pstmt.setString(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     String directions = rs.getString("directions");
                     String title = rs.getString("title");
                     int estim_time = rs.getInt("estim_time");
-                    String imgPath = rs.getString("imgPath");
+                    String rec_id = rs.getString("rec_id");
 
-                    System.out.println(imgPath);
 
-                    recipes.add(new Recipe("null", title, directions, imgPath, estim_time, "-1"));
+                    recipes.add(new Recipe(rec_id, title, directions, null, estim_time, "-1"));
                 }
             }
 

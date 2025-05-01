@@ -2,9 +2,9 @@ package uga.group11.cs4370.controllers;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.sql.Blob;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import uga.group11.cs4370.services.ChefsService;
+import uga.group11.cs4370.services.UserService;
 
 
 @Controller
@@ -23,10 +24,12 @@ import uga.group11.cs4370.services.ChefsService;
 public class RecipeController {
 
     private final ChefsService chefsService;
+    private final UserService userService;
      
     @Autowired
-    public RecipeController(ChefsService chefsService){
+    public RecipeController(ChefsService chefsService, UserService userService){
         this.chefsService = chefsService;
+        this.userService = userService;
     }
 
    @GetMapping
@@ -48,7 +51,7 @@ public class RecipeController {
         // Redirect the user if the post creation is a success.
         // return "redirect:/";
         try{
-            boolean postSuccess = chefsService.createRecipe(titleText,directionsText,timeText,rec_img.getAbsolutePath());
+            boolean postSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(),titleText,directionsText,timeText);
             if(postSuccess){
                 return "redirect:/";
             }else{
