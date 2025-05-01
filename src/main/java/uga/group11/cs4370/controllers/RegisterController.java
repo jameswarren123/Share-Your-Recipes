@@ -57,10 +57,11 @@ public class RegisterController {
             // If the password is too short redirect to the registration page
             // with an error message.
             String message = URLEncoder.encode("Passwords must contain 1 uppercase letter, 1 lowercase letter, 1 number, 1 non-aplhanumeric character, and be of length 9 or greater.", "UTF-8");
+            //entropy is a minimum of 4 + 2*7 + 1.5 + 6 = 25.5
             return "redirect:/register?error=" + message;
         }
         // End password tests
-
+        System.out.println("here2");
         if (!password.equals(passwordRepeat)) {
             // If the password repeat does not match the password redirect to the registration page
             // with an error message.
@@ -69,6 +70,7 @@ public class RegisterController {
         }
 
         try {
+            System.out.println("here");
             boolean registrationSuccess = userService.registerUser(password,
                     username);
             if (registrationSuccess) {
