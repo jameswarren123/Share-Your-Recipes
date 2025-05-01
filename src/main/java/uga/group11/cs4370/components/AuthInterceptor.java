@@ -17,7 +17,7 @@ import uga.group11.cs4370.services.UserService;
  */
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
-/* 
+
     // This service enables user services.
     private UserService userService;
 
@@ -37,5 +37,5 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
         return true;
     }
-  */
+  
 }

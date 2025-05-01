@@ -55,12 +55,12 @@ public class ChefsService {
                 while (rs.next()) {
                     String directions = rs.getString("directions");
                     String title = rs.getString("title");
-                    String estim_time = rs.getString("estim_time");
+                    int estim_time = rs.getInt("estim_time");
                     String imgPath = rs.getString("imgPath");
 
                     System.out.println(imgPath);
 
-                    recipes.add(new Recipe(null, title, directions, imgPath, estim_time, null));
+                    recipes.add(new Recipe("null", title, directions, imgPath, estim_time, "-1"));
                 }
             }
 

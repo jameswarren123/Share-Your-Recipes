@@ -37,6 +37,7 @@ public class UserService {
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             // Following line replaces the first place holder with username.
+            System.out.println("Username: " + username);
             pstmt.setString(1, username);
 
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -47,9 +48,10 @@ public class UserService {
                     // Note: rs.get.. functions access attributes of the current row.
                     String storedPasswordHash = rs.getString("password");
                     boolean isPassMatch = passwordEncoder.matches(password, storedPasswordHash);
+                    System.out.println(isPassMatch);
                     // Note: 
                     if (isPassMatch) {
-                        String userId = rs.getString("userId");
+                        String userId = rs.getString("user_id");
                         String profile_picture = rs.getString("profile_picture");
 
                         // Initialize and retain the logged in user.
@@ -89,13 +91,13 @@ public class UserService {
     public boolean registerUser(String password, String username)
             throws SQLException {
         // Note the ? marks in the SQL statement. They are placeholders like mentioned above.
-        final String registerSql = "insert into user (password, username) values (?, ?, ?, ?)";
+        final String registerSql = "insert into user (password, username) values (?, ?)";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement registerStmt = conn.prepareStatement(registerSql)) {
             // Following lines replace the placeholders 1-4 with values.
-            registerStmt.setString(1, username);
-            registerStmt.setString(2, passwordEncoder.encode(password));
+            registerStmt.setString(1, passwordEncoder.encode(password));
+            registerStmt.setString(2, username);
 
             // Execute the statement and check if rows are affected.
             int rowsAffected = registerStmt.executeUpdate();
