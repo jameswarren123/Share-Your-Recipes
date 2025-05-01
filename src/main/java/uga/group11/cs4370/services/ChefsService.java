@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Blob;
 
 import javax.sql.DataSource;
 import javax.xml.crypto.Data;
@@ -27,8 +28,8 @@ public class ChefsService {
         this.dataSource = dataSource;
     }
 
-    public boolean createRecipe(String title, String directions, int estim_time) throws SQLException{
-        final String postSql = "insert into recipe (title,directions,estim_time) values (?,?,?)";
+    public boolean createRecipe(String title, String directions, int estim_time, String imgPath) throws SQLException{
+        final String postSql = "insert into recipe (title,directions,estim_time,imgPath) values (?,?,?,?)";
    
 
         try(Connection conn = dataSource.getConnection();
@@ -36,6 +37,7 @@ public class ChefsService {
             sqlStmt.setString(1, title);
             sqlStmt.setString(2, directions);
             sqlStmt.setInt(3, estim_time);
+            sqlStmt.setString(4, imgPath);
 
             int rowsAffected = sqlStmt.executeUpdate();
             return rowsAffected > 0;
@@ -43,6 +45,8 @@ public class ChefsService {
         
 
     }
+    
+
 
     public List<Recipe> getCreatedRecipes() throws SQLException{
         final String sql = "select * from recipe"; 
@@ -55,8 +59,12 @@ public class ChefsService {
                     String directions = rs.getString("directions");
                     String title = rs.getString("title");
                     String estim_time = rs.getString("estim_time");
+                    String imgPath = rs.getString("imgPath");
+                    
+                    System.out.println(imgPath);
+                    
 
-                    recipes.add(new Recipe(null, title, directions, null, estim_time, null));
+                    recipes.add(new Recipe(null, title, directions, imgPath, estim_time, null));
                 }
             }
 

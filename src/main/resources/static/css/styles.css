@@ -30,6 +30,7 @@ nav a:hover {
 .framed {
   border: 0.8pt solid var(--frame-color);
   border-radius: 4pt;
+  width: 350pt;
 }
 .separator-bottom {
   border-bottom: 0.8pt solid var(--frame-color);
@@ -78,7 +79,7 @@ nav a:hover {
   background-color: #ff9e42;
 }
 .container {
-  max-width: 480pt;
+  max-width: 510px;
   margin: 24pt auto;
   background-color: var(--box-color);
   border-radius: 4pt;
@@ -90,18 +91,28 @@ nav a:hover {
   text-align: center;
 }
 
+.posts {
+  background-color: #f6f6f6;
+}
+
 .post {
-  padding: 16pt;
-  margin-bottom: 8pt;
+  background-color: #fff;
+  padding: 10pt;
+  margin-bottom: 22pt;
   position: relative;
   display: block;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+.post:hover {
+  transform: scale(1.01);
+}
+
 .post img {
-  position: absolute;
-  border-radius: 50%;
-  width: 36pt;
-  height: 36pt;
+  width: 350pt;
+  height: 250pt;
   margin-right: 8pt;
+  border-radius: 10px;
   border: 1pt solid var(--normal-text-color);
 }
 .post a {
@@ -265,4 +276,17 @@ nav a:hover {
 
 .directions_size {
   height: 300px;
+}
+
+.mid-container {
+  text-align: center;
+}
+
+.post h3 {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.home-bg {
+  background-color: #f6f6f6;
 }
