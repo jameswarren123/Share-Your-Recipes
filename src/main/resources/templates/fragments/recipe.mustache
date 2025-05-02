@@ -1,3 +1,10 @@
+
+<head> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+
 <div class="card-container">
   <div class="card">
     <div class="image-wrapper">
@@ -5,7 +12,22 @@
     </div>
     <div class="card-footer">
       <h4>{{title}}</h4>
-      <h4>Rating:⭐️⭐️⭐️⭐️⭐️</h4>
+      <div class="rating">
+      <input type="radio" name="rating" id="star-1" class="rating-radio" value="1">
+      <label for="star-1"><i class="fa-solid fa-star"></i></label> 
+
+      <input type="radio" name="rating" id="star-2" class="rating-radio" value="2">
+      <label for="star-2"><i class="fa-solid fa-star"></i></label> 
+
+      <input type="radio" name="rating" id="star-3" class="rating-radio" value="3">
+      <label for="star-3"><i class="fa-solid fa-star"></i></label> 
+
+      <input type="radio" name="rating" id="star-4" class="rating-radio" value="4">
+      <label for="star-4"><i class="fa-solid fa-star"></i></label> 
+
+      <input type="radio" name="rating" id="star-5" class="rating-radio" value="5">
+      <label for="star-5"><i class="fa-solid fa-star"></i></label> 
+      </div>
       <h4>Estimated Time: {{estim_time}} min</h4>
     </div>
   </div>
