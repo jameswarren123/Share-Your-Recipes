@@ -188,7 +188,6 @@ nav a:hover {
   align-items: center;
 }
 
-
 .navbg {
   background-color: #ff9e42;
 }
@@ -268,7 +267,6 @@ nav a:hover {
   background-color: #f6f6f6;
 }
 
-
 .card-container {
   display: flex;
   justify-content: center;
@@ -281,6 +279,7 @@ nav a:hover {
 
 .card {
   max-width: 600px;
+  min-width: 600px;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -288,7 +287,6 @@ nav a:hover {
 
 .card:hover {
   transform: scale(1.01);
-
 }
 
 .image-wrapper {
@@ -329,4 +327,3 @@ nav a:hover {
 .card-footer h4 {
   margin: 0;
 }
-
