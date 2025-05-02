@@ -6,10 +6,10 @@ public class Recipe {
     private final String title;
     private final String directions;
     private final String imagePath;
-    private final String estim_time;
+    private final int estim_time;
     private final String rating;
 
-    public Recipe(String recipe_id, String title, String directions, String imagePath, String estim_time, String rating) {
+    public Recipe(String recipe_id, String title, String directions, String imagePath, int estim_time, String rating) {
         this.recipe_id = recipe_id;
         // this.chef_id = chef_id;
         this.title = title;
@@ -41,7 +41,7 @@ public class Recipe {
         return imagePath;
     }
 
-    public String getEstimTime() {
+    public int getEstimTime() {
         return estim_time;
     }
 

@@ -7,14 +7,9 @@ use cs4370p4;
 -- Create the user table.
 CREATE TABLE User (
   user_id INT AUTO_INCREMENT PRIMARY KEY,
-  password VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE Profile (
-  username VARCHAR(50) PRIMARY KEY,
-  profile_picture VARCHAR(255),
-  user_id INT,
-  FOREIGN KEY (user_id) REFERENCES User(user_id)
+  password VARCHAR(255) NOT NULL,
+  username VARCHAR(50) NOT NULL,
+  profile_picture VARCHAR(255)
 );
 
 CREATE TABLE Recipe (
@@ -50,4 +45,4 @@ CREATE TABLE Rating (
   rating INT CHECK (rating >= 1 AND rating <= 5),
   FOREIGN KEY (user_id) REFERENCES User(user_id),
   FOREIGN KEY (rec_id) REFERENCES Recipe(rec_id)
-);
+); 
