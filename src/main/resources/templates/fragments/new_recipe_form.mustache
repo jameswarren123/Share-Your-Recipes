@@ -1,6 +1,6 @@
 
         <div class="recipe_form">
-        <form method="post" action="/recipe/createrecipe">
+        <form method="post" action="/recipe/createrecipe" enctype="multipart/form-data">
             <div class="label_space">
              <label>Title</label> 
              <div>
@@ -16,12 +16,8 @@
              <div class="label_space">
              <label>Image</label>  
              <div>
-             <input
-            type="file"
-            for="file-upload"
-            name="rec_img"
-            accept="application/pdf, image/png, image/jpeg"
-             />
+             <input name="file" type="file"
+                accept="application/pdf, image/png, image/jpeg, image/jpg">
              </div>
              </div>
              <div class="label_space">

@@ -15,5 +15,19 @@
         </div>
       </div>
     </div>
+    {{^isSubbed}}
+      <form method="get" action="/chefs/{{user_id}}/sub/true">
+        <button class="sub-button" title="Follow">
+          <i class="fas fa-user-plus"></i>
+        </button>
+      </form>
+    {{/isSubbed}}
+    {{#isSubbed}}
+      <form method="get" action="/chefs/{{user_id}}/sub/false">
+        <button class="sub-button" title="Unfollow">
+          <i class="fas fa-user-minus"></i>
+        </button>
+      </form>
+    {{/isSubbed}}
   </div>
 </div>

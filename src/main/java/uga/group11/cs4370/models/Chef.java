@@ -9,23 +9,31 @@ public class Chef extends User {
      */
 
     private final List<Recipe> recipes;
+    private final boolean isSubbed;
 
-    public Chef(String user_id, String username, int image_id, String image_path, List<Recipe> recipes) {
+    public Chef(String user_id, String username, int image_id, String image_path, List<Recipe> recipes, boolean isSubbed) {
         super(user_id, username, image_id, image_path);
         this.recipes = recipes;
+        this.isSubbed = isSubbed;
     }
 
-    public Chef(String user_id, String username, int image_id, List<Recipe> recipes) {
+    public Chef(String user_id, String username, int image_id, List<Recipe> recipes, boolean isSubbed) {
         super(user_id, username, image_id);
         this.recipes = recipes;
+        this.isSubbed = isSubbed;
     }
 
-    public Chef(String user_id, String username, List<Recipe> recipes) {
+    public Chef(String user_id, String username, List<Recipe> recipes, boolean isSubbed) {
         super(user_id, username);
         this.recipes = recipes;
+        this.isSubbed = isSubbed;
     }
 
     public List<Recipe> getRecipes() {
         return recipes;
+    }
+
+    public boolean isSubbed() {
+        return isSubbed;
     }
 }
