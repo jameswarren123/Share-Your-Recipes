@@ -44,15 +44,34 @@ public class RecipeController {
 }
 
     @PostMapping("/createrecipe")
-    public String createRecipe(@RequestParam(name = "titleText") String titleText,@RequestParam(name = "directionsText") String directionsText,@RequestParam(name = "timeText") int timeText, @RequestParam(name = "rec_img") File rec_img) {
+    public String createRecipe(@RequestParam(name = "titleText") String titleText,@RequestParam(name = "directionsText") String directionsText,@RequestParam(name = "timeText") String timeText, @RequestParam(name = "rec_img") File rec_img) {
         System.out.println("User is creating recipe: " + titleText);
         
          
         // Redirect the user if the post creation is a success.
         // return "redirect:/";
+        if(titleText == ""){
+            String message = URLEncoder.encode("Failed to create the Recipe. Please input information into each box.",
+            StandardCharsets.UTF_8);
+            return "redirect:/recipe?error=" + message;
+        }
+        if(directionsText == ""){
+            String message = URLEncoder.encode("Failed to create the Recipe. Please input information into each box.",
+            StandardCharsets.UTF_8);
+            return "redirect:/recipe?error=" + message;
+        }
+        if(timeText == ""){
+            String message = URLEncoder.encode("Failed to create the Recipe. Please input information into each box.",
+            StandardCharsets.UTF_8);
+            return "redirect:/recipe?error=" + message;
+        }
+
+        int numText = Integer.parseInt(timeText);
+        
+
         try{
-            boolean postSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(),titleText,directionsText,timeText);
-            if(postSuccess){
+            boolean recipeSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(),titleText,directionsText,numText);
+            if(recipeSuccess){
                 return "redirect:/";
             }else{
                 String message = URLEncoder.encode("Failed to create the Recipe. Please try again.",
