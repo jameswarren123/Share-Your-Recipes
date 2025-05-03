@@ -7,6 +7,7 @@ uga\group11\cs4370\services\RecipeService.class
 uga\group11\cs4370\controllers\ImageController.class
 uga\group11\cs4370\controllers\ProfileController.class
 uga\group11\cs4370\controllers\TopRecipesController.class
+uga\group11\cs4370\models\Chef.class
 uga\group11\cs4370\controllers\RecipeController.class
 uga\group11\cs4370\App.class
 uga\group11\cs4370\services\ImageService.class
@@ -14,7 +15,6 @@ uga\group11\cs4370\config\WebConfig.class
 uga\group11\cs4370\services\ChefsService.class
 uga\group11\cs4370\controllers\RecipeExpandController.class
 uga\group11\cs4370\models\ExpandedRecipe.class
-uga\group11\cs4370\models\Chefs.class
 uga\group11\cs4370\components\AuthInterceptor.class
 uga\group11\cs4370\models\User.class
 uga\group11\cs4370\models\Recipe.class

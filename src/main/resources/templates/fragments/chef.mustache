@@ -1,0 +1,19 @@
+<div class="profile-card framed post soft-orange-bg">
+  <div class="profile-info">
+    <img class="profile-image" src="{{image_path}}" alt="Profile Image">
+    <div class="profile-text">
+      <span class="username">{{username}}</span>
+      <div class="post-details">
+        <div class="post-date">User ID: {{user_id}}</div>
+        <div class="post-date">
+          Chef Recipes:
+          <ul>
+            {{#recipes}}
+              <li>{{title}}</li>
+            {{/recipes}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -42,7 +42,7 @@ public class ProfileController {
         ModelAndView mv = new ModelAndView("profile_page");
 
         // Fetch actual recipes from the database
-        List<ExpandedRecipe> recipes = recipeService.getUserRecipes(userId);
+        List<ExpandedRecipe> recipes = recipeService.getUserExpRecipes(userId);
 
         mv.addObject("recipes", recipes);
 

@@ -380,7 +380,7 @@ input[type="radio" i]:checked ~ label i {
   color: #000000;
 }
 
-/*======================USER_CSS================================*/
+/*======================CHEF_CSS================================*/
 /* Soft orange background using your theme */
 .soft-orange-bg {
   background-color: #ffe9d6;
@@ -414,6 +414,8 @@ input[type="radio" i]:checked ~ label i {
   font-weight: bold;
   font-size: 18px;
   color: #f99130;
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-text .post-date {
@@ -421,4 +423,10 @@ input[type="radio" i]:checked ~ label i {
   font-size: 12pt;
   margin-top: 4pt;
 }
-/*======================USER_CSS================================*/
+
+.post-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4pt;
+}
+/*======================CHEF_CSS================================*/

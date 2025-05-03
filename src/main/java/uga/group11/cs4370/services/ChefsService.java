@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import uga.group11.cs4370.models.Chef;
 import uga.group11.cs4370.models.Recipe;
 import uga.group11.cs4370.models.User;
 
@@ -20,10 +21,14 @@ import uga.group11.cs4370.models.User;
 @SessionScope
 public class ChefsService {
     private final DataSource dataSource;
+    private final UserService userService;
+    private final RecipeService recipeService;
 
     @Autowired
-    public ChefsService(DataSource dataSource) {
+    public ChefsService(DataSource dataSource, UserService userService, RecipeService recipeService) {
         this.dataSource = dataSource;
+        this.userService = userService;
+        this.recipeService = recipeService;
     }
 
     public boolean createRecipe(String userId, String title, String directions, int estim_time) throws SQLException {
@@ -85,5 +90,27 @@ public class ChefsService {
         }
 
         return users;
+    }
+
+    public List<Chef> getChefs() throws SQLException {
+        final String sql = "select * from user u, image i where u.image_id = i.image_id";
+        List<Chef> chefs = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String user_id = rs.getString("user_id");
+                    String username = rs.getString("username");
+                    int image_id = rs.getInt("image_id");
+                    String image_path = rs.getString("image_path");
+                    List<Recipe> recipes = recipeService.getUserRecipes(user_id);
+                    chefs.add(new Chef(user_id, username, image_id, image_path, recipes));
+                }
+            }
+
+        }
+
+        return chefs;
     }
 }
