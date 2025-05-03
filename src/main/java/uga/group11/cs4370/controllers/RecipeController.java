@@ -41,7 +41,7 @@ public class RecipeController {
 }
 
     @PostMapping("/createrecipe")
-    public String createRecipe(@RequestParam(name = "titleText") String titleText,@RequestParam(name = "directionsText") String directionsText,@RequestParam(name = "timeText") String timeText, @RequestParam(name = "rec_img") File rec_img) {
+    public String createRecipe(@RequestParam(name = "mealType") String mealType,@RequestParam(name = "cuisineType") String cuisineType,@RequestParam(name = "titleText") String titleText,@RequestParam(name = "directionsText") String directionsText,@RequestParam(name = "timeText") String timeText, @RequestParam(name = "rec_img") File rec_img) {
         System.out.println("User is creating recipe: " + titleText);
         
          
@@ -62,12 +62,23 @@ public class RecipeController {
             StandardCharsets.UTF_8);
             return "redirect:/recipe?error=" + message;
         }
+        if(mealType == ""){
+            String message = URLEncoder.encode("Failed to create the Recipe. Please input information into each box.",
+            StandardCharsets.UTF_8);
+            return "redirect:/recipe?error=" + message;
+        }
+        if(cuisineType == ""){
+            String message = URLEncoder.encode("Failed to create the Recipe. Please input information into each box.",
+            StandardCharsets.UTF_8);
+            return "redirect:/recipe?error=" + message;
+        }
 
         int numText = Integer.parseInt(timeText);
         
 
         try{
-            boolean recipeSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(),titleText,directionsText,numText);
+            boolean recipeSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(),titleText,directionsText,numText,mealType,cuisineType);
+            // boolean recipeSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(),titleText,directionsText,numText);
             if(recipeSuccess){
                 return "redirect:/";
             }else{

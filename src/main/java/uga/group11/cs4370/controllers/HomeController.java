@@ -23,33 +23,32 @@ import uga.group11.cs4370.models.Recipe;
 @RequestMapping
 public class HomeController {
 
-
-    private final ChefsService chefsService; 
+    private final ChefsService chefsService;
     private final UserService userService;
 
     @Autowired
-    public HomeController(ChefsService chefsService, UserService userService){
+    public HomeController(ChefsService chefsService, UserService userService) {
         this.chefsService = chefsService;
         this.userService = userService;
     }
 
-@GetMapping
-public ModelAndView webpage(@RequestParam(name = "error", required = false) String error) {
- ModelAndView mv = new ModelAndView("home_page");
- 
-   List<Recipe> recipes = new ArrayList<>();
+    @GetMapping
+    public ModelAndView webpage(@RequestParam(name = "error", required = false) String error) {
+        ModelAndView mv = new ModelAndView("home_page");
 
-    try{    
-       recipes = chefsService.getCreatedRecipes(userService.getLoggedInUser().getUserId());
-    }catch(SQLException e){
-       System.out.println("Failed to retrieve recipes");
+        List<Recipe> recipes = new ArrayList<>();
+
+        try {
+            recipes = chefsService.getCreatedRecipes(userService.getLoggedInUser().getUserId());
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve recipes");
+        }
+        mv.addObject("recipes", recipes);
+
+        String errorMessage = error;
+        mv.addObject("errorMessage", errorMessage);
+
+        return mv;
+
     }
-    mv.addObject("recipes", recipes);     
-
-    String errorMessage = error;
-    mv.addObject("errorMessage", errorMessage);
-
-    return mv;
-    
-}
 }
