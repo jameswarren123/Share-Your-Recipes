@@ -32,9 +32,9 @@ public class ChefsService {
         this.recipeService = recipeService;
     }
 
-    public boolean createRecipe(String userId, String title, String directions, int estim_time, String image_path)
-            throws SQLException {
-        final String postSql = "insert into recipe (user_id,title,directions,estim_time,image_path) values (?,?,?,?,?)";
+    public boolean createRecipe(String userId, String title, String directions, int estim_time, String image_path, String meal_type, String cuisine_type) throws SQLException {
+        final String postSql = "insert into recipe (user_id,title,directions,estim_time,image_path,meal_type,cuisine_type,view_count) values (?,?,?,?,?,?,?,?)";
+
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement sqlStmt = conn.prepareStatement(postSql)) {
@@ -43,7 +43,10 @@ public class ChefsService {
             sqlStmt.setString(3, directions);
             sqlStmt.setInt(4, estim_time);
             sqlStmt.setString(5, image_path);
-
+            sqlStmt.setString(6, meal_type);
+            sqlStmt.setString(7, cuisine_type);
+            sqlStmt.setInt(8, 0); // view_count is set to 0 by default
+            System.out.println("SQL Statement: " + sqlStmt.toString());
             int rowsAffected = sqlStmt.executeUpdate();
             return rowsAffected > 0;
         }
@@ -64,8 +67,11 @@ public class ChefsService {
                     String rec_id = rs.getString("rec_id");
                     String image_path = rs.getString("image_path");
                     String rating = recipeService.getRating(rs.getString("rec_id"));
+                    String meal_type = rs.getString("meal_type");
+                    String cuisine_type = rs.getString("cuisine_type");
+                    int view_count = rs.getInt("view_count");
 
-                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating));
+                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating, meal_type, cuisine_type, view_count, false));
                 }
             }
         }

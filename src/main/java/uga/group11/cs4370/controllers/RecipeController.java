@@ -51,10 +51,11 @@ public class RecipeController {
     private String uploadDir;
 
     @PostMapping("/createrecipe")
-    public String createRecipe(@RequestParam(name = "titleText") String titleText,
-            @RequestParam(name = "directionsText") String directionsText,
-            @RequestParam(name = "timeText") String timeText, @RequestParam("file") MultipartFile file,
+    public String createRecipe(@RequestParam(name = "mealType") String mealType, @RequestParam(name = "cuisineType") String cuisineType,
+             @RequestParam(name = "titleText") String titleText, @RequestParam(name = "directionsText") String directionsText,
+             @RequestParam(name = "timeText") String timeText, @RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
+
         System.out.println("User is creating recipe: " + titleText);
 
         // Redirect the user if the post creation is a success.
@@ -74,8 +75,19 @@ public class RecipeController {
                     StandardCharsets.UTF_8);
             return "redirect:/recipe?error=" + message;
         }
+        if(mealType == ""){
+            String message = URLEncoder.encode("Failed to create the Recipe. Please input information into each box.",
+            StandardCharsets.UTF_8);
+            return "redirect:/recipe?error=" + message;
+        }
+        if(cuisineType == ""){
+            String message = URLEncoder.encode("Failed to create the Recipe. Please input information into each box.",
+            StandardCharsets.UTF_8);
+            return "redirect:/recipe?error=" + message;
+        }
 
         int numText = Integer.parseInt(timeText);
+
 
         if (file.isEmpty()) {
             // redirectAttributes.addFlashAttribute("message", "Please select a file to
@@ -100,10 +112,10 @@ public class RecipeController {
 
         String image_path = "/uploads" + file.getOriginalFilename();
 
-        try {
-            boolean recipeSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(), titleText,
-                    directionsText, numText, image_path);
-            if (recipeSuccess) {
+        try{
+            boolean recipeSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(),titleText,directionsText,numText,image_path,mealType,cuisineType);
+            // boolean recipeSuccess = chefsService.createRecipe(userService.getLoggedInUser().getUserId(),titleText,directionsText,numText);
+            if(recipeSuccess){
                 return "redirect:/";
             } else {
                 String message = URLEncoder.encode("Failed to create the Recipe. Please try again.",
