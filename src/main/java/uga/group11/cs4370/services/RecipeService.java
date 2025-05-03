@@ -50,7 +50,24 @@ public class RecipeService {
     }
 
     public Recipe getRecipe(String rec_id) throws SQLException {
+
         Recipe toRet = null;
+
+        final String sql1 = "UPDATE recipes SET view_count = view_count + 1 WHERE rec_id = ?;";
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql1)) {
+            pstmt.setString(1, rec_id);
+
+            int rowsAffected = pstmt.executeUpdate();
+
+            // Optional: check if update actually occurred
+            if (rowsAffected > 0) {
+                System.out.println("View count updated successfully.");
+            } else {
+                System.out.println("No rows updated. Check rec_id.");
+            }
+        }
+
 
         final String sql = "select * from recipe where rec_id = ?;";
 
@@ -128,28 +145,6 @@ public class RecipeService {
                     String rating = this.getRating(rec_id);
 
                     recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating));
-                }
-            }
-        }
-
-        return recipes;
-    }
-
-    public List<ExpandedRecipe> getTopRecipes() throws SQLException {
-        List<ExpandedRecipe> recipes = new ArrayList<>();
-        final String sql = "SELECT r.rec_id, r.title, AVG(rt.rating) AS avg_rating FROM recipes r JOIN rating rt ON r.rec_id = rt.rec_id GROUP BY r.rec_id, r.title ORDER BY avg_rating DESC LIMIT 5;";
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    String rec_id = rs.getString("rec_id");
-                    String title = rs.getString("title");
-                    String directions = rs.getString("directions");
-                    String image = rs.getString("image");
-                    int estim_time = rs.getInt("estim_time");
-                    String rating = this.getRating(rec_id);
-                    recipes.add(new ExpandedRecipe(rec_id, title, image, estim_time, rating, directions));
                 }
             }
         }

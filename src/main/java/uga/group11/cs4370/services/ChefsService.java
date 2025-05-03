@@ -31,8 +31,8 @@ public class ChefsService {
         this.recipeService = recipeService;
     }
 
-    public boolean createRecipe(String userId, String title, String directions, int estim_time) throws SQLException {
-        final String postSql = "insert into recipe (user_id,title,directions,estim_time) values (?,?,?,?)";
+    public boolean createRecipe(String userId, String title, String directions, int estim_time, String meal_type, String cuisine_type) throws SQLException {
+        final String postSql = "insert into recipe (user_id,title,directions,estim_time,meal_type,cuisine_type,view_count) values (?,?,?,?,?,?,?)";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement sqlStmt = conn.prepareStatement(postSql)) {
@@ -40,7 +40,10 @@ public class ChefsService {
             sqlStmt.setString(2, title);
             sqlStmt.setString(3, directions);
             sqlStmt.setInt(4, estim_time);
-
+            sqlStmt.setString(5, meal_type);
+            sqlStmt.setString(6, cuisine_type);
+            sqlStmt.setInt(7, 0); // view_count is set to 0 by default
+            System.out.println("SQL Statement: " + sqlStmt.toString());
             int rowsAffected = sqlStmt.executeUpdate();
             return rowsAffected > 0;
         }
@@ -59,7 +62,9 @@ public class ChefsService {
                     String title = rs.getString("title");
                     int estim_time = rs.getInt("estim_time");
                     String rec_id = rs.getString("rec_id");
-
+                    String meal_type = rs.getString("meal_type");
+                    String cuisine_type = rs.getString("cuisine_type");
+                    String image = rs.getString("image");
                     recipes.add(new Recipe(rec_id, title, directions, null, estim_time, "-1"));
                 }
             }
