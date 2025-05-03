@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.multipart.MultipartFile;
 
 import uga.group11.cs4370.models.User;
-
 
 @Service
 @SessionScope
 public class UserService {
-    
+
     private final DataSource dataSource;
     private final BCryptPasswordEncoder passwordEncoder;
     private User loggedInUser = null;
@@ -30,7 +30,8 @@ public class UserService {
     }
 
     public boolean authenticate(String username, String password) throws SQLException {
-        // Note the ? mark in the query. It is a place holder that we will later replace.
+        // Note the ? mark in the query. It is a place holder that we will later
+        // replace.
         final String sql = "select * from user where username = ?";
 
         try (Connection conn = dataSource.getConnection();
@@ -42,20 +43,20 @@ public class UserService {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 // Traverse the result rows one at a time.
-                // Note: This specific while loop will only run at most once 
+                // Note: This specific while loop will only run at most once
                 // since username is unique.
                 while (rs.next()) {
                     // Note: rs.get.. functions access attributes of the current row.
                     String storedPasswordHash = rs.getString("password");
                     boolean isPassMatch = passwordEncoder.matches(password, storedPasswordHash);
                     System.out.println(isPassMatch);
-                    // Note: 
+                    // Note:
                     if (isPassMatch) {
                         String userId = rs.getString("user_id");
-                        String profile_picture = rs.getString("profile_picture");
+                        int image_id = rs.getInt("image_id");
 
                         // Initialize and retain the logged in user.
-                        loggedInUser = new User(userId, username, profile_picture);
+                        loggedInUser = new User(userId, username, image_id);
                     }
 
                     return isPassMatch;
@@ -64,7 +65,6 @@ public class UserService {
         }
         return false;
     }
-
 
     /**
      * Logs out the user.
@@ -87,23 +87,23 @@ public class UserService {
         return loggedInUser;
     }
 
-
-    public boolean registerUser(String password, String username)
+    public boolean registerUser(String password, String username, int image_id)
             throws SQLException {
-        // Note the ? marks in the SQL statement. They are placeholders like mentioned above.
-        final String registerSql = "insert into user (password, username) values (?, ?)";
+        // Note the ? marks in the SQL statement. They are placeholders like mentioned
+        // above.
+        final String registerSql = "insert into user (password, username, image_id) values (?, ?, ?)";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement registerStmt = conn.prepareStatement(registerSql)) {
             // Following lines replace the placeholders 1-4 with values.
             registerStmt.setString(1, passwordEncoder.encode(password));
             registerStmt.setString(2, username);
+            registerStmt.setInt(3, image_id);
 
             // Execute the statement and check if rows are affected.
             int rowsAffected = registerStmt.executeUpdate();
             return rowsAffected > 0;
-            
-            
+
         }
-    }
+    }   
 }

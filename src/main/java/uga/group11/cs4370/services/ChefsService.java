@@ -4,13 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.Blob;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,17 +26,15 @@ public class ChefsService {
         this.dataSource = dataSource;
     }
 
-    public boolean createRecipe(String userId,String title, String directions, int estim_time) throws SQLException {
+    public boolean createRecipe(String userId, String title, String directions, int estim_time) throws SQLException {
         final String postSql = "insert into recipe (user_id,title,directions,estim_time) values (?,?,?,?)";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement sqlStmt = conn.prepareStatement(postSql)) {
-            sqlStmt.setString(1,userId);
+            sqlStmt.setString(1, userId);
             sqlStmt.setString(2, title);
             sqlStmt.setString(3, directions);
             sqlStmt.setInt(4, estim_time);
-
-            
 
             int rowsAffected = sqlStmt.executeUpdate();
             return rowsAffected > 0;
@@ -52,14 +47,13 @@ public class ChefsService {
         List<Recipe> recipes = new ArrayList<>();
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setString(1, userId);
+            pstmt.setString(1, userId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     String directions = rs.getString("directions");
                     String title = rs.getString("title");
                     int estim_time = rs.getInt("estim_time");
                     String rec_id = rs.getString("rec_id");
-
 
                     recipes.add(new Recipe(rec_id, title, directions, null, estim_time, "-1"));
                 }
@@ -72,7 +66,7 @@ public class ChefsService {
     }
 
     public List<User> getUsers() throws SQLException {
-        final String sql = "select * from user";
+        final String sql = "select * from user u, image i where u.image_id = i.image_id";
         List<User> users = new ArrayList<>();
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -81,16 +75,15 @@ public class ChefsService {
                 while (rs.next()) {
                     String user_id = rs.getString("user_id");
                     String username = rs.getString("username");
-                    String profileImagePath = rs.getString("profile_picture");
+                    int image_id = rs.getInt("image_id");
+                    String image_path = rs.getString("image_path");
 
-                    users.add(new User(user_id, username, profileImagePath));
+                    users.add(new User(user_id, username, image_id, image_path));
                 }
             }
 
         }
 
         return users;
-
     }
-
 }

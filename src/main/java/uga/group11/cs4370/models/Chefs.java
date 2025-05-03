@@ -10,8 +10,8 @@ public class Chefs extends User {
 
     private final List<Recipe> recipes;
 
-    public Chefs(String user_id, String username, String profileImagePath, List<Recipe> recipes) {
-        super(user_id, username, profileImagePath);
+    public Chefs(String user_id, String username, int image_id, List<Recipe> recipes) {
+        super(user_id, username, image_id);
         this.recipes = recipes;
     }
 
