@@ -17,10 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageService {
 
     private final DataSource dataSource;
+    private final UserService userService;
 
     @Autowired
-    public ImageService(DataSource dataSource) {
+    public ImageService(DataSource dataSource, UserService userService) {
         this.dataSource = dataSource;
+        this.userService = userService;
     }
 
     public boolean storeImage(MultipartFile file) throws SQLException {
@@ -63,12 +65,12 @@ public class ImageService {
                 "WHERE i.image_id = u.image_id " +
                 "AND u.image_id = (SELECT image_id FROM user WHERE user_id = ?)";
         
-        int user_id = 5;
+        String user_id = userService.getLoggedInUser().getUserId();
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, user_id);
+            stmt.setString(1, user_id);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {

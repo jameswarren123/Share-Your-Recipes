@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
-import uga.group11.cs4370.models.Recipe;
+import uga.group11.cs4370.models.Chef;
 import uga.group11.cs4370.models.User;
 import uga.group11.cs4370.services.ChefsService;
 import uga.group11.cs4370.services.ImageService;
@@ -33,25 +33,35 @@ public class ChefsController {
     public ModelAndView webpage(@RequestParam(name = "error", required = false) String error) {
         ModelAndView mv = new ModelAndView("chefs_page");
 
-        List<User> users = new ArrayList<>();
+        // List<User> users = new ArrayList<>();
+
+        // try {
+        //     users = chefsService.getUsers();
+        // } catch (SQLException e) {
+        //     System.out.println("Failed to retrieve users");
+        // }
+
+        // String image = "";
+
+        // try {
+        //     image = imageService.getUserImage();
+        //     System.out.println("Path:" + image);
+        // } catch (SQLException e) {
+        //     System.out.println("Failed to retrieve users images");
+        // }
+
+
+        List<Chef> chefs = new ArrayList<>();
 
         try {
-            users = chefsService.getUsers();
+            chefs = chefsService.getChefs();
         } catch (SQLException e) {
-            System.out.println("Failed to retrieve users");
+            System.out.println("Failed to retrieve chefs");
         }
 
-        String image = "";
-
-        try {
-            image = imageService.getUserImage();
-            System.out.println("Path:" + image);
-        } catch (SQLException e) {
-            System.out.println("Failed to retrieve users images");
-        }
-
-        mv.addObject("users", users);
-        mv.addObject("image", image);
+        mv.addObject("chefs", chefs);
+        //mv.addObject("users", users);
+        //mv.addObject("image", image);
 
         String errorMessage = error;
         mv.addObject("errorMessage", errorMessage);

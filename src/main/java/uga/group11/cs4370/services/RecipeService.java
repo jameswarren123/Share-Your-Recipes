@@ -41,6 +41,9 @@ public class RecipeService {
                     float averageRating = rs.getFloat("average_rating");
                     return String.format("%.1f", averageRating);
                 }
+
+            } catch (SQLException e) {
+                return "No Rating";
             }
         }
         return null;
@@ -85,7 +88,7 @@ public class RecipeService {
         }
     }
 
-    public List<ExpandedRecipe> getUserRecipes(String userId) throws SQLException {
+    public List<ExpandedRecipe> getUserExpRecipes(String userId) throws SQLException {
         List<ExpandedRecipe> recipes = new ArrayList<>();
         final String sql = "select * from recipe where user_id = ?;";
         try (Connection conn = dataSource.getConnection();
@@ -101,6 +104,30 @@ public class RecipeService {
                     int estim_time = rs.getInt("estim_time");
                     String rating = this.getRating(rec_id);
                     recipes.add(new ExpandedRecipe(rec_id, title, image, estim_time, rating, directions));
+                }
+            }
+        }
+
+        return recipes;
+    }
+
+    public List<Recipe> getUserRecipes(String userId) throws SQLException {
+        List<Recipe> recipes = new ArrayList<>();
+        final String sql = "select * from recipe where user_id = ?;";
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String rec_id = rs.getString("rec_id");
+                    String title = rs.getString("title");
+                    String directions = rs.getString("directions");
+                    String image_path = rs.getString("image_path");
+                    int estim_time = rs.getInt("estim_time");
+                    String rating = this.getRating(rec_id);
+
+                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating));
                 }
             }
         }
