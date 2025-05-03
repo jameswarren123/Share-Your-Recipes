@@ -82,9 +82,14 @@ public class RecipeService {
                     String directions = rs.getString("directions");
                     String image = rs.getString("image");
                     int estim_time = rs.getInt("estim_time");
+                    String meal_type = rs.getString("meal_type");
+                    String cuisine_type = rs.getString("cuisine_type");
+                    int view_count = rs.getInt("view_count");
+
+                   
 
                     // Create a new Recipe object and return it
-                    toRet = new Recipe(rec_id, title, directions, image, estim_time, rating);
+                    toRet = new Recipe(rec_id, title, directions, image, estim_time, rating,meal_type,cuisine_type,view_count,false);
                 }
             }
         }
@@ -140,11 +145,15 @@ public class RecipeService {
                     String rec_id = rs.getString("rec_id");
                     String title = rs.getString("title");
                     String directions = rs.getString("directions");
-                    String image_path = rs.getString("image_path");
                     int estim_time = rs.getInt("estim_time");
                     String rating = this.getRating(rec_id);
+                    String meal_type = rs.getString("meal_type");
+                    String cuisine_type = rs.getString("cuisine_type");
+                    String image = rs.getString("image");
+                    int view_count = rs.getInt("view_count");
 
-                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating));
+                    
+                    recipes.add(new Recipe(rec_id, title, directions, image, estim_time, rating,meal_type,cuisine_type,view_count,false));
                 }
             }
         }

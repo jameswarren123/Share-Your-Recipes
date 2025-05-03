@@ -65,10 +65,13 @@ public class ChefsService {
                     String meal_type = rs.getString("meal_type");
                     String cuisine_type = rs.getString("cuisine_type");
                     String image = rs.getString("image");
-                    recipes.add(new Recipe(rec_id, title, directions, null, estim_time, "-1"));
+                    int view_count = rs.getInt("view_count");
+
+
+
+                    recipes.add(new Recipe(rec_id, title, directions, image, estim_time, "-1",meal_type,cuisine_type,view_count,false));
                 }
             }
-
         }
 
         return recipes;
