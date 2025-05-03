@@ -5,16 +5,16 @@ public class Recipe {
     // private final String chef_id;
     private final String title;
     private final String directions;
-    private final String imagePath;
+    private final String image_path;
     private final int estim_time;
     private final String rating;
 
-    public Recipe(String recipe_id, String title, String directions, String imagePath, int estim_time, String rating) {
+    public Recipe(String recipe_id, String title, String directions, String image_path, int estim_time, String rating) {
         this.recipe_id = recipe_id;
         // this.chef_id = chef_id;
         this.title = title;
         this.directions = directions;
-        this.imagePath = imagePath;
+        this.image_path = image_path;
         this.estim_time = estim_time;
         this.rating = rating;
     }
@@ -38,7 +38,7 @@ public class Recipe {
     }
      
     public String getImagePath() {
-        return imagePath;
+        return image_path;
     }
 
     public int getEstimTime() {

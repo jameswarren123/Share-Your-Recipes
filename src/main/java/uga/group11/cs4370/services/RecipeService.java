@@ -30,7 +30,7 @@ public class RecipeService {
         this.userService = userService;
     }
 
-    private String getRating(String rec_id) throws SQLException {
+    public String getRating(String rec_id) throws SQLException {
         final String sql = "select round(avg(rating), 1) as average_rating from ratings where rec_id = ?;";
 
         try (Connection conn = dataSource.getConnection();
