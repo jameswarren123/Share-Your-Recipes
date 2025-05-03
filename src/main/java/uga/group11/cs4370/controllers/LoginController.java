@@ -1,30 +1,36 @@
 package uga.group11.cs4370.controllers;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import uga.group11.cs4370.services.UserService;
 
 @Controller
 @RequestMapping("/login")
 public class LoginController {
-    
+
     private final UserService userService;
 
     @Autowired
     public LoginController(UserService userService) {
         this.userService = userService;
     }
-
 
     @GetMapping
     public ModelAndView webpage(@RequestParam(name = "error", required = false) String error) {
@@ -40,7 +46,6 @@ public class LoginController {
 
         return mv;
     }
-
 
     @PostMapping
     public String login(@RequestParam("username") String username,

@@ -379,3 +379,46 @@ input[type="radio" i]:checked ~ label i {
 .rating input[type="radio"]:checked ~ label i {
   color: #000000;
 }
+
+/*======================USER_CSS================================*/
+/* Soft orange background using your theme */
+.soft-orange-bg {
+  background-color: #ffe9d6;
+  border: 2px solid #ffa500;
+  border-radius: 12px;
+  padding: 16pt;
+}
+
+/* Horizontal layout for image + text */
+.profile-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-card {
+  margin-bottom: 1rem; /* or 16px */
+}
+
+/* Circular image */
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffbe81;
+  margin-right: 16pt;
+}
+
+/* Text content */
+.profile-text .username {
+  font-weight: bold;
+  font-size: 18px;
+  color: #f99130;
+}
+
+.profile-text .post-date {
+  color: #757575;
+  font-size: 12pt;
+  margin-top: 4pt;
+}
+/*======================USER_CSS================================*/

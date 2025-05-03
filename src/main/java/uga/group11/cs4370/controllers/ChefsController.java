@@ -15,15 +15,18 @@ import org.springframework.web.servlet.ModelAndView;
 import uga.group11.cs4370.models.Recipe;
 import uga.group11.cs4370.models.User;
 import uga.group11.cs4370.services.ChefsService;
+import uga.group11.cs4370.services.ImageService;
 
 @Controller
 @RequestMapping("/chefs")
 public class ChefsController {
     private final ChefsService chefsService;
+    private final ImageService imageService;
 
     @Autowired
-    public ChefsController(ChefsService chefsService) {
+    public ChefsController(ChefsService chefsService, ImageService imageService) {
         this.chefsService = chefsService;
+        this.imageService = imageService;
     }
 
     @GetMapping
@@ -37,7 +40,18 @@ public class ChefsController {
         } catch (SQLException e) {
             System.out.println("Failed to retrieve users");
         }
+
+        String image = "";
+
+        try {
+            image = imageService.getUserImage();
+            System.out.println("Path:" + image);
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve users images");
+        }
+
         mv.addObject("users", users);
+        mv.addObject("image", image);
 
         String errorMessage = error;
         mv.addObject("errorMessage", errorMessage);

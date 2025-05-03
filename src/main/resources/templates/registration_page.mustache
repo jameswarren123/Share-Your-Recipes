@@ -12,10 +12,14 @@ This is a project developed by Dr. Menik to give the students an opportunity to 
     <div class="container center-align narrow">
         <h1>Registration</h1>
         {{> fragments/error_message}}
-        <form method="post" action="/register">
-            <input name="username" class="short-input full" type="text" placeholder="Username">
-            <input name="password" class="short-input full" type="password" placeholder="Password">
-            <input name="passwordRepeat" class="short-input full" type="password" placeholder="Password Repeat">
+        <form method="post" action="/register" enctype="multipart/form-data">
+            <div>
+                <input name="username" class="short-input full" type="text" placeholder="Username">
+                <input name="password" class="short-input full" type="password" placeholder="Password">
+                <input name="passwordRepeat" class="short-input full" type="password" placeholder="Password Repeat">
+                <input name="file" class="short-input full" type="file"
+                accept="application/pdf, image/png, image/jpeg">
+            </div>
             <button type="submit" class="action-button">Register</button>
         </form>
     </div>
