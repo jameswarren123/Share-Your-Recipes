@@ -54,11 +54,14 @@ public class ChefsService {
     }
 
     public List<Recipe> getCreatedRecipes(String userId) throws SQLException {
-        final String sql = "select * from recipe where user_Id = ?";
+        final String sql = "select distinct r.title,r.directions,r.estim_time,r.rec_id,r.image_path,r.meal_type,r.cuisine_type,r.view_count  from user u, recipe r, subscription s where u.user_id = ? and u.user_id = r.user_id or u.user_id = r.user_id and r.user_id = some (select distinct s.subscribed_id from user u, subscription s where u.user_id = ? and u.user_id = s.subscriber_id)";  
+        System.out.println(userId);
         List<Recipe> recipes = new ArrayList<>();
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, userId);
+            pstmt.setString(2, userId);
+            System.out.println(pstmt);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     String directions = rs.getString("directions");
