@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -159,4 +161,115 @@ public class RecipeService {
 
         return recipes;
     }
+    
+    public boolean favoriteRecipe(boolean isAdd, String rec_id, User user) throws SQLException {
+        String userId = user.getUserId();
+    
+        if (isAdd) {
+            if (existsFavorite(rec_id, userId)) {
+                System.out.println("Already favorited: skipping insert.");
+                return false;
+            }
+    
+            final String sql = "INSERT INTO Favorite (rec_id, user_id) VALUES (?, ?)";
+            try (Connection conn = dataSource.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, rec_id);
+                stmt.setString(2, userId);
+                int rowsAffected = stmt.executeUpdate();
+                return rowsAffected > 0;
+            }
+        } else {
+            final String sql = "DELETE FROM Favorite WHERE rec_id = ? AND user_id = ?";
+            try (Connection conn = dataSource.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, rec_id);
+                stmt.setString(2, userId);
+                int rowsAffected = stmt.executeUpdate();
+                return rowsAffected > 0;
+            }
+        }
+    }
+
+    public boolean existsFavorite(String rec_id, String user_id) {
+        final String sql = "SELECT 1 FROM Favorite WHERE rec_id = ? AND user_id = ? LIMIT 1";
+    
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    
+            stmt.setString(1, rec_id);
+            stmt.setString(2, user_id);
+    
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next(); // returns true if any row exists
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<Recipe> getFavoriteRecipe(String user_id) throws SQLException {
+        final String sql = """
+                SELECT r.*, ROUND(AVG(rt.rating), 1) AS avg_rating 
+                FROM recipe r
+                JOIN favorite f ON r.rec_id = f.rec_id
+                LEFT JOIN rating rt ON r.rec_id = rt.rec_id
+                WHERE f.user_id = ?
+                GROUP BY r.rec_id;
+        """;
+
+        
+        List<Recipe> favoriteRecipes = new ArrayList<>();
+
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, user_id);  // Set the logged-in user_id
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    // Retrieve the post data from the result set
+                    String rec_id = rs.getString("rec_id");
+                    String title = rs.getString("title");
+                    String directions = rs.getString("directions");
+                    String image = rs.getString("image_path");
+                    int estim_time = rs.getInt("estim_time");
+                    double rating = rs.getDouble("avg_rating");
+
+                    // Fetch the user from the UserService
+                    //User user = userService.getUserFromRecipeId(rec_id);  // Ensure this method is being called
+                    
+                    // Create the Recipe object with all necessary details
+                    Recipe recipe = new Recipe(rec_id, title, directions, image, estim_time, String.valueOf(rating), true);
+                    favoriteRecipes.add(recipe);
+                }
+            }
+        }
+
+        return favoriteRecipes;
+    }
+    // public List<Recipe> getAllRecipesWithFavoriteStatus(User user) throws SQLException {
+    //     List<Recipe> allRecipes = getUserRecipes(user.getUserId());  // Or a broader method if homepage shows all users’ recipes
+    //     List<Recipe> favorites = getFavoriteRecipe(user.getUserId());
+
+    //     // Create a quick lookup set of favorited recipe IDs
+    //     Set<String> favoriteIds = new HashSet<>();
+    //     for (Recipe fav : favorites) {
+    //         favoriteIds.add(fav.getRecipeId());
+    //     }
+
+    //     // Mark is_favorite = true for matching recipes
+    //     for (Recipe recipe : allRecipes) {
+    //         if (favoriteIds.contains(recipe.getRecipeId())) {
+    //             recipe.setFavorite(true);
+    //             System.out.println(recipe.getTitle() + " is a favorite!");
+    //         }
+    //         System.out.println("Recipe: " + recipe.getTitle() + " isFavorite? " + recipe.isFavorite());
+
+    //     }
+        
+    //     return allRecipes;
+    // }
 }

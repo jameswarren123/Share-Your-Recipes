@@ -38,6 +38,18 @@ public class Recipe {
         this.rating = rating;
     }
 
+    public Recipe(String recipe_id, String title, String directions, String image_path, int estim_time, String rating, boolean is_favorite) {
+
+        this.recipe_id = recipe_id;
+        // this.chef_id = chef_id;
+        this.title = title;
+        this.directions = directions;
+        this.image_path = image_path;
+        this.estim_time = estim_time;
+        this.rating = rating;
+        this.is_favorite = is_favorite;
+    }
+
     public String getRecipeId() {
         return recipe_id;
     }

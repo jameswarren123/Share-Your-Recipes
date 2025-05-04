@@ -319,6 +319,27 @@ nav a:hover {
   display: block;
 }
 
+favorite-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.favorite-icon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 28px;
+  right: 8px;
+  cursor: pointer;
+  
+  transition: transform 0.2s ease;
+}
+
 .star {
   position: absolute;
   top: 10px;
