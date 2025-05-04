@@ -179,7 +179,9 @@ public class ChefsService {
                     int image_id = rs.getInt("image_id");
                     String image_path = rs.getString("image_path");
                     boolean isSubbed = rs.getBoolean("isSubbed");
-    
+                    int count = 0;
+                    count++;
+                    System.out.println("Chef " + count);
                     List<Recipe> recipes = recipeService.getUserRecipes(user_id);
     
                     chefs.add(new Chef(user_id, username, image_id, image_path, recipes, isSubbed));

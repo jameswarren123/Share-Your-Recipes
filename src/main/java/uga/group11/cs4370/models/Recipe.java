@@ -18,7 +18,7 @@ public class Recipe {
         // this.chef_id = chef_id;
         this.title = title;
         this.directions = directions;
-        this.imagePath = image_path;
+        this.image_path = image_path;
         this.estim_time = estim_time;
         this.rating = rating;
         this.meal_type = meal_type;

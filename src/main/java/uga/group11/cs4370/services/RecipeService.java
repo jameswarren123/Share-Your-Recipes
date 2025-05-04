@@ -149,11 +149,11 @@ public class RecipeService {
                     String rating = this.getRating(rec_id);
                     String meal_type = rs.getString("meal_type");
                     String cuisine_type = rs.getString("cuisine_type");
-                    String image = rs.getString("image");
+                    String image_path = rs.getString("image_path");
                     int view_count = rs.getInt("view_count");
 
                     
-                    recipes.add(new Recipe(rec_id, title, directions, image, estim_time, rating,meal_type,cuisine_type,view_count,false));
+                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating,meal_type,cuisine_type,view_count,false));
                 }
             }
         }

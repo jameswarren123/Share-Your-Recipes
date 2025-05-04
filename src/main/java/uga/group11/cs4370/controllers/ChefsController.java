@@ -55,8 +55,8 @@ public class ChefsController {
         // }
 
         try {
-            List<Chef> subscribableUsers = chefsService.getChefsWithSubStatus();
-            mv.addObject("chefs", subscribableUsers);
+            List<Chef> subscribableChefs = chefsService.getChefsWithSubStatus();
+            mv.addObject("chefs", subscribableChefs);
         } catch (SQLException e) {
             System.out.println("Failed followable chefs");
         }
