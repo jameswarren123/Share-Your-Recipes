@@ -3,6 +3,7 @@ package uga.group11.cs4370.controllers;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,13 @@ public class RecipeExpandController {
 
     private final UserService userService;
     private final RecipeService recipeService;
+    private final ChefsService chefsService;
 
     @Autowired
-    public RecipeExpandController(UserService userService, RecipeService recipeService) {
+    public RecipeExpandController(UserService userService, RecipeService recipeService,ChefsService chefsService) {
         this.userService = userService;
         this.recipeService = recipeService;
+        this.chefsService = chefsService;
     }
 
     @GetMapping("/{rec_id}")
@@ -39,10 +42,11 @@ public class RecipeExpandController {
 
         System.out.println("The user is attempting to view recipe with id: " + rec_id);
         ModelAndView mv = new ModelAndView("recipe_view_page");
+        List<Recipe> recipes = new ArrayList<>();
 
         try {
-            Recipe recipe = recipeService.getRecipe(rec_id);
-            mv.addObject("recipe", recipe);
+            recipes = recipeService.getRecipe(rec_id);
+            mv.addObject("recipes", recipes);
         } catch (SQLException e) {
             System.out.println("failed to get recipe");
         }

@@ -49,11 +49,11 @@ public class RecipeService {
         return null;
     }
 
-    public Recipe getRecipe(String rec_id) throws SQLException {
+    public List<Recipe> getRecipe(String rec_id) throws SQLException {
 
-        Recipe toRet = null;
+        List<Recipe> recipes = new ArrayList<>();
 
-        final String sql1 = "UPDATE recipes SET view_count = view_count + 1 WHERE rec_id = ?;";
+       /*  final String sql1 = "UPDATE recipes SET view_count = view_count + 1 WHERE rec_id = ?;";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql1)) {
             pstmt.setString(1, rec_id);
@@ -67,9 +67,9 @@ public class RecipeService {
                 System.out.println("No rows updated. Check rec_id.");
             }
         }
+*/
 
-
-        final String sql = "select * from recipe where rec_id = ?;";
+        final String sql = "select * from recipe where rec_id = ?";
 
         String rating = this.getRating(rec_id);
 
@@ -86,14 +86,13 @@ public class RecipeService {
                     String cuisine_type = rs.getString("cuisine_type");
                     int view_count = rs.getInt("view_count");
 
-                   
 
                     // Create a new Recipe object and return it
-                    toRet = new Recipe(rec_id, title, directions, image, estim_time, rating,meal_type,cuisine_type,view_count,false);
+                     recipes.add( new Recipe(rec_id, title, directions, image, estim_time, rating,meal_type,cuisine_type,view_count,false));
                 }
             }
         }
-        return toRet;
+        return recipes;
     }
 
     public boolean rateRecipe(int count, String rec_id, User user) throws SQLException {
