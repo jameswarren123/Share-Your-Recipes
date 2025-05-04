@@ -1,0 +1,85 @@
+<div class="search-container">
+  <h2>Search Recipe</h2>
+
+  <form method="GET" action="/searchresults">
+    <!-- Favorites -->
+    <div class="form-group">
+      <label>Favorites Only:</label>
+      <div class="toggle-group">
+        <input type="radio" name="favorites" value="false" checked> False
+        <input type="radio" name="favorites" value="true"> True
+      </div>
+    </div>
+
+    <!-- Following -->
+    <div class="form-group">
+      <label>Following Only:</label>
+      <div class="toggle-group">
+        <input type="radio" name="following" value="false" checked> False
+        <input type="radio" name="following" value="true"> True
+      </div>
+    </div>
+
+    <!-- Time -->
+    <div class="form-group">
+      <label>Less Than Some Time:</label>
+      <input type="number" name="max_time" placeholder="Enter minutes">
+    </div>
+
+    <!-- Rating -->
+    <div class="form-group">
+      <label>Over What Rating:</label>
+      <input type="number" name="min_rating" min="1" max="5" placeholder="1 - 5">
+    </div>
+
+    <!-- Meal Type -->
+    <div class="form-group">
+      <label>Meal Type:</label>
+      <div class="button-group">
+        <button type="submit" name="meal_type" value="Breakfast">Breakfast</button>
+        <button type="submit" name="meal_type" value="Brunch">Brunch</button>
+        <button type="submit" name="meal_type" value="Lunch">Lunch</button>
+        <button type="submit" name="meal_type" value="Dinner">Dinner</button>
+        <button type="submit" name="meal_type" value="Snack">Snack</button>
+        <button type="submit" name="meal_type" value="Dessert">Dessert</button>
+      </div>
+    </div>
+
+    <!-- Cuisine -->
+    <div class="form-group">
+      <label for="cuisine">Cuisine Type:</label>
+      <select name="cuisine_type" id="cuisine">
+        <option value="">Select Cuisine</option>
+        <option value="Mediterranean">Mediterranean</option>
+        <option value="Indian">Indian</option>
+        <option value="Chinese">Chinese</option>
+        <option value="Mexican">Mexican</option>
+        <option value="American">American</option>
+        <!-- Add more cuisines as needed -->
+      </select>
+    </div>
+
+    <!-- Order By -->
+    <div class="form-group">
+      <label>Order by: Chef</label>
+      <div class="button-group">
+        <button type="submit" name="order_chef" value="highest_rated">Highest Rated</button>
+        <button type="submit" name="order_chef" value="most_viewed">Most Viewed</button>
+        <button type="submit" name="order_chef" value="newest">Newest</button>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Order by: Recipe</label>
+      <div class="button-group">
+        <button type="submit" name="order_recipe" value="highest_rated">Highest Rated</button>
+        <button type="submit" name="order_recipe" value="most_viewed">Most Viewed</button>
+        <button type="submit" name="order_recipe" value="newest">Newest</button>
+      </div>
+    </div>
+
+    <div class="submit-wrapper">
+      <button type="submit" class="submit-button">Submit</button>
+    </div>
+  </form>
+</div>
