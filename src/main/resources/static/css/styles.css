@@ -287,7 +287,7 @@ nav a:hover {
 }
 
 .posts {
-  background-color: #f6f6f6;
+  background-color: #ffffff;
 }
 
 .card {
@@ -344,6 +344,11 @@ nav a:hover {
 
 .rating {
   direction: rtl;
+  margin-right: 10px;
+  margin-top: 15px;
+  font-size: large;
+  color: #c66000;
+  font-weight: bold;
 }
 
 .rating label {
@@ -378,6 +383,35 @@ input[type="radio" i]:checked ~ label i {
 .rating input[type="radio"]:checked + label i,
 .rating input[type="radio"]:checked ~ label i {
   color: #000000;
+}
+
+.image-expand {
+  width: 100%;
+  height: 400px;
+
+  object-fit: cover;
+  display: block;
+}
+
+.rate-dir {
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  color: #c66000;
+  border: 1px solid #ffbe81;
+  border-radius: 1%;
+  line-height: 2;
+}
+
+.rate-h4 {
+  width: 175px;
+  color: #c66000;
+  margin-left: 10px;
+  border: 1px solid #ffbe81;
+  border-radius: 5%;
 }
 
 /*======================CHEF_CSS================================*/
@@ -431,6 +465,7 @@ input[type="radio" i]:checked ~ label i {
   gap: 4pt;
 }
 
+
 .sub-button {
   font-size: 20px;
   padding: 8px 12px;
@@ -450,4 +485,4 @@ input[type="radio" i]:checked ~ label i {
   background-color: #f99130;
 }
 
-/*======================CHEF_CSS================================*/
+

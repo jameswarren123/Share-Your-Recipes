@@ -70,6 +70,9 @@ public class ChefsService {
                     String meal_type = rs.getString("meal_type");
                     String cuisine_type = rs.getString("cuisine_type");
                     int view_count = rs.getInt("view_count");
+                    
+                    
+
 
                     recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating, meal_type, cuisine_type, view_count, false));
                 }
