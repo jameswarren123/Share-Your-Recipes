@@ -44,7 +44,7 @@ public class HomeController {
             System.out.println("Failed to retrieve recipes");
         }
         mv.addObject("recipes", recipes);
-
+        mv.addObject("currentPath", "/");
         String errorMessage = error;
         mv.addObject("errorMessage", errorMessage);
 
