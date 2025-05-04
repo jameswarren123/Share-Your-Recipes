@@ -427,6 +427,7 @@ input[type="radio" i]:checked ~ label i {
 .profile-info {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .profile-card {
@@ -463,4 +464,25 @@ input[type="radio" i]:checked ~ label i {
   flex-direction: column;
   gap: 4pt;
 }
-/*======================CHEF_CSS================================*/
+
+
+.sub-button {
+  font-size: 20px;
+  padding: 8px 12px;
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sub-button i {
+  pointer-events: none; /* Prevent clicks on the icon itself */
+}
+
+.sub-button:hover {
+  background-color: #f99130;
+}
+
+

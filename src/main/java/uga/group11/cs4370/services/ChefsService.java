@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,9 @@ public class ChefsService {
         this.recipeService = recipeService;
     }
 
-    public boolean createRecipe(String userId, String title, String directions, int estim_time, String meal_type, String cuisine_type) throws SQLException {
-        final String postSql = "insert into recipe (user_id,title,directions,estim_time,meal_type,cuisine_type,view_count) values (?,?,?,?,?,?,?)";
+    public boolean createRecipe(String userId, String title, String directions, int estim_time, String image_path, String meal_type, String cuisine_type) throws SQLException {
+        final String postSql = "insert into recipe (user_id,title,directions,estim_time,image_path,meal_type,cuisine_type,view_count) values (?,?,?,?,?,?,?,?)";
+
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement sqlStmt = conn.prepareStatement(postSql)) {
@@ -40,9 +42,10 @@ public class ChefsService {
             sqlStmt.setString(2, title);
             sqlStmt.setString(3, directions);
             sqlStmt.setInt(4, estim_time);
-            sqlStmt.setString(5, meal_type);
-            sqlStmt.setString(6, cuisine_type);
-            sqlStmt.setInt(7, 0); // view_count is set to 0 by default
+            sqlStmt.setString(5, image_path);
+            sqlStmt.setString(6, meal_type);
+            sqlStmt.setString(7, cuisine_type);
+            sqlStmt.setInt(8, 0); // view_count is set to 0 by default
             System.out.println("SQL Statement: " + sqlStmt.toString());
             int rowsAffected = sqlStmt.executeUpdate();
             return rowsAffected > 0;
@@ -62,14 +65,16 @@ public class ChefsService {
                     String title = rs.getString("title");
                     int estim_time = rs.getInt("estim_time");
                     String rec_id = rs.getString("rec_id");
+                    String image_path = rs.getString("image_path");
+                    String rating = recipeService.getRating(rs.getString("rec_id"));
                     String meal_type = rs.getString("meal_type");
                     String cuisine_type = rs.getString("cuisine_type");
-                    String image = rs.getString("image");
                     int view_count = rs.getInt("view_count");
                     
                     
 
-                    recipes.add(new Recipe(rec_id, title, "directions", image, estim_time, "-1",meal_type,cuisine_type,view_count,false));
+
+                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating, meal_type, cuisine_type, view_count, false));
                 }
             }
         }
@@ -100,25 +105,108 @@ public class ChefsService {
         return users;
     }
 
-    public List<Chef> getChefs() throws SQLException {
-        final String sql = "select * from user u, image i where u.image_id = i.image_id";
-        List<Chef> chefs = new ArrayList<>();
-        try (Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    // public List<Chef> getChefs() throws SQLException {
+    //     final String sql = "select * from user u, image i where u.image_id = i.image_id";
+    //     List<Chef> chefs = new ArrayList<>();
+    //     try (Connection conn = dataSource.getConnection();
+    //             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
+    //         try (ResultSet rs = pstmt.executeQuery()) {
+    //             while (rs.next()) {
+    //                 String user_id = rs.getString("user_id");
+    //                 String username = rs.getString("username");
+    //                 int image_id = rs.getInt("image_id");
+    //                 String image_path = rs.getString("image_path");
+    //                 List<Recipe> recipes = recipeService.getUserRecipes(user_id);
+    //                 boolean isSubbed = true;
+    //                 chefs.add(new Chef(user_id, username, image_id, image_path, recipes, isSubbed));
+    //             }
+    //         }
+
+    //     }
+
+    //     return chefs;
+    // }
+
+    // public List<Chef> getsubscribableChefs() throws SQLException {
+    //     final String sql = "SELECT u.user_id, u.username, u.image_id, "
+    //             + "EXISTS (SELECT 1 FROM subscription s WHERE s.subscriber_id = ? "
+    //             + "AND s.subscribed_id = u.user_id) AS isSubbed "
+    //             + "FROM user u WHERE u.user_id != ?";
+
+    //     List<Chef> subscribableChefs = new ArrayList<>();
+
+    //     try (Connection conn = dataSource.getConnection();
+    //             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    //         pstmt.setString(1, userService.getLoggedInUser().getUserId());
+    //         pstmt.setString(2, userService.getLoggedInUser().getUserId());
+
+    //         try (ResultSet rs = pstmt.executeQuery()) {
+    //             while (rs.next()) {
+
+    //                 String user_id = rs.getString("user_id");
+    //                 String username = rs.getString("username");
+    //                 int image_id = rs.getInt("image_id");
+    //                 String image_path = rs.getString("image_path");
+    //                 List<Recipe> recipes = recipeService.getUserRecipes(user_id);
+    //                 boolean isSubbed = rs.getBoolean("isSubbed");
+
+    //                 subscribableChefs.add(new Chef(user_id, username, image_id, image_path, recipes, isSubbed));
+    //             }
+    //         }
+    //     }
+    //     return subscribableChefs;
+    // }
+
+    public List<Chef> getChefsWithSubStatus() throws SQLException {
+        final String sql = "SELECT u.user_id, u.username, u.image_id, i.image_path, " +
+                           "EXISTS (SELECT 1 FROM subscription s " +
+                           "        WHERE s.subscriber_id = ? AND s.subscribed_id = u.user_id) AS isSubbed " +
+                           "FROM user u " +
+                           "JOIN image i ON u.image_id = i.image_id " +
+                           "WHERE u.user_id != ?";
+    
+        List<Chef> chefs = new ArrayList<>();
+    
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    
+            String loggedInUserId = userService.getLoggedInUser().getUserId();
+            pstmt.setString(1, loggedInUserId);
+            pstmt.setString(2, loggedInUserId);
+    
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     String user_id = rs.getString("user_id");
                     String username = rs.getString("username");
                     int image_id = rs.getInt("image_id");
                     String image_path = rs.getString("image_path");
+                    boolean isSubbed = rs.getBoolean("isSubbed");
+                    int count = 0;
+                    count++;
+                    System.out.println("Chef " + count);
                     List<Recipe> recipes = recipeService.getUserRecipes(user_id);
-                    chefs.add(new Chef(user_id, username, image_id, image_path, recipes));
+    
+                    chefs.add(new Chef(user_id, username, image_id, image_path, recipes, isSubbed));
                 }
             }
+        }
+    
+        return chefs;
+    }
+    
 
+    public void updateFollowStatus(String subscriber_id, String subscribed_id, boolean isSubbed) throws SQLException {
+        final String sql = isSubbed
+                ? "INSERT INTO subscription (subscriber_id, subscribed_id) VALUES (?, ?)" // subscribe
+                : "DELETE FROM subscription WHERE subscriber_id = ? AND subscribed_id = ?"; // unsubscribe
+
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, subscriber_id);
+            stmt.setString(2, subscribed_id);
+            stmt.executeUpdate();
         }
 
-        return chefs;
     }
 }

@@ -30,7 +30,7 @@ public class RecipeService {
         this.userService = userService;
     }
 
-    private String getRating(String rec_id) throws SQLException {
+    public String getRating(String rec_id) throws SQLException {
         final String sql = "select round(avg(rating), 1) as average_rating from ratings where rec_id = ?;";
 
         try (Connection conn = dataSource.getConnection();
@@ -148,11 +148,11 @@ public class RecipeService {
                     String rating = this.getRating(rec_id);
                     String meal_type = rs.getString("meal_type");
                     String cuisine_type = rs.getString("cuisine_type");
-                    String image = rs.getString("image");
+                    String image_path = rs.getString("image_path");
                     int view_count = rs.getInt("view_count");
 
                     
-                    recipes.add(new Recipe(rec_id, title, directions, image, estim_time, rating,meal_type,cuisine_type,view_count,false));
+                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating,meal_type,cuisine_type,view_count,false));
                 }
             }
         }
