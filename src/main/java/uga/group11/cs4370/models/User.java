@@ -1,11 +1,12 @@
 package uga.group11.cs4370.models;
 
 public class User {
-    private final String user_id; //username
-    private final String username; //password
+    private String user_id; // username
+    private String username; // password
     private int image_id;
     private String image_path;
-    //static final String DEFAULT_PROFILE_IMAGE_PATH = "https://example.com/default_profile_image.png";
+    // static final String DEFAULT_PROFILE_IMAGE_PATH =
+    // "https://example.com/default_profile_image.png";
 
     public User(String user_id, String username, int image_id, String image_path) {
         this.user_id = user_id;
@@ -23,6 +24,13 @@ public class User {
     public User(String user_id, String username) {
         this.user_id = user_id;
         this.username = username;
+    }
+
+    public User() {
+        this.user_id = "";
+        this.username = "";
+        this.image_id = 0;
+        this.image_path = null;
     }
 
     public String getUserId() {

@@ -123,10 +123,10 @@ public class RecipeService {
                     String rec_id = rs.getString("rec_id");
                     String title = rs.getString("title");
                     String directions = rs.getString("directions");
-                    String image = rs.getString("image");
+                    String image_path = rs.getString("image_path");
                     int estim_time = rs.getInt("estim_time");
                     String rating = this.getRating(rec_id);
-                    recipes.add(new ExpandedRecipe(rec_id, title, image, estim_time, rating, directions));
+                    recipes.add(new ExpandedRecipe(rec_id, title, image_path, estim_time, rating, directions));
                 }
             }
         }

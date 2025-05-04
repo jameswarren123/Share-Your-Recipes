@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -105,5 +107,52 @@ public class UserService {
             return rowsAffected > 0;
 
         }
+    }
+
+    public List<User> getUsers() throws SQLException {
+        final String sql = "select * from user u, image i where u.image_id = i.image_id";
+        List<User> users = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    String user_id = rs.getString("user_id");
+                    String username = rs.getString("username");
+                    int image_id = rs.getInt("image_id");
+                    String image_path = rs.getString("image_path");
+
+                    users.add(new User(user_id, username, image_id, image_path));
+                }
+            }
+
+        }
+
+        return users;
+    }
+
+    public User getUser(String user_id) throws SQLException {
+        final String sql = "select * from user u, image i where u.image_id = i.image_id"
+                + " and u.user_id = ?";
+        User user = new User();
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, user_id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String username = rs.getString("username");
+                    int image_id = rs.getInt("image_id");
+                    String image_path = rs.getString("image_path");
+
+                    user = new User(user_id, username, image_id, image_path);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("This SQL failed in getUser UserService" + e.getMessage());
+        }
+
+        return user;
     }
 }
