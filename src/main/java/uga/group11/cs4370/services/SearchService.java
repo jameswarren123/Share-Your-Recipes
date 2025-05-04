@@ -62,13 +62,7 @@ public class SearchService {
             where.append("subscription.subscriber_id = ? ");
             params.add(user_id);
         }
-        if (overRating != null && overRating != 0) {
-            join.append("LEFT JOIN rating ON recipe.rec_id = rating.rec_id ");
-            having.append(having.length() > 0 ? "AND " : "HAVING ");
-            having.append("AVG(rating.rating) > ? ");
-            params.add(overRating);
-            groupByNeeded = true;
-        }
+        
 
         // Handle WHERE conditions
         if (lessThanTime != null) {
@@ -76,20 +70,26 @@ public class SearchService {
             where.append("recipe.estim_time <= ? ");
             params.add(lessThanTime);
         }
-        if (mealType != null) {
+        if (mealType.compareTo("") != 0) {
             where.append(where.length() > 0 ? "AND " : "WHERE ");
             where.append("recipe.meal_type = ? ");
             params.add(mealType);
         }
-        if (cuisineType != null) {
+        if (cuisineType.compareTo("") != 0) {
             where.append(where.length() > 0 ? "AND " : "WHERE ");
             where.append("recipe.cuisine_type = ? ");
             params.add(cuisineType);
         }
-
+        if (overRating != null && overRating != 0) {
+            join.append("LEFT JOIN rating ON recipe.rec_id = rating.rec_id ");
+            having.append(having.length() > 0 ? "AND " : "HAVING ");
+            having.append("AVG(rating.rating) >= ? ");
+            params.add(overRating);
+            groupByNeeded = true;
+        }
         // Handle ORDER BY
         String orderBy = "ORDER BY ";
-        if (orderRecipe != null) {
+        if (orderRecipe.compareTo("") != 0) {
             if (orderRecipe.equals("Highest Rated")) {
                 join.append("LEFT JOIN rating ON recipe.rec_id = rating.rec_id ");
                 orderBy += "avg_rating DESC ";
@@ -130,8 +130,6 @@ public class SearchService {
             params.add(limitResults);
         }
 
-        System.out.println("SQL Statement: " + sql);
-
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
             // Bind parameters
@@ -145,6 +143,8 @@ public class SearchService {
                     pstmt.setFloat(i + 1, (Float) param);
                 }
             }
+
+            System.out.println("147 pstmt Statement: " + pstmt.toString());
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -177,7 +177,7 @@ public class SearchService {
             String orderChef,
             Integer limitResults,
             String user_id) throws SQLException {
-
+        
         List<User> chefs = new ArrayList<>();
         String sql = "SELECT user.user_id, user.username, user.image_id, image.image_path, COUNT(DISTINCT recipe.rec_id) AS recipe_count, AVG(rating.rating) AS avg_rating ";
         String join = "LEFT JOIN recipe ON user.user_id = recipe.user_id ";
@@ -213,12 +213,12 @@ public class SearchService {
             where += "recipe.estim_time <= ? ";
             params.add(lessThanTime);
         }
-        if (mealType != null) {
+        if (mealType.compareTo("") != 0) {
             where += where.length() > 0 ? "AND " : "WHERE ";
             where += "recipe.meal_type = ? ";
             params.add(mealType);
         }
-        if (cuisineType != null) {
+        if (cuisineType.compareTo("") != 0) {
             where += where.length() > 0 ? "AND " : "WHERE ";
             where += "recipe.cuisine_type = ? ";
             params.add(cuisineType);
@@ -226,7 +226,7 @@ public class SearchService {
 
         // Handle ORDER BY
         String orderBy = "ORDER BY ";
-        if (orderChef != null) {
+        if (orderChef.compareTo("") != 0) {
             if (orderChef.equals("Highest Rated")) {
                 join += "LEFT JOINAnimation: [Ideal Response] rating ON recipe.rec_id = rating.rec_id ";
                 orderBy += "avg_rating DESC ";
@@ -270,8 +270,6 @@ public class SearchService {
             params.add(limitResults);
         }
 
-        System.out.println("SQL Statement: " + sql);
-
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             // Bind parameters
@@ -285,6 +283,8 @@ public class SearchService {
                     pstmt.setFloat(i + 1, (Float) param);
                 }
             }
+
+            System.out.println("287 pstmt Statement: " + pstmt.toString());
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {

@@ -43,7 +43,7 @@ public class SearchController {
     }
 
     @PostMapping("/searchresults")
-    public ModelAndView searchRecipes(
+    public ModelAndView search(
             @RequestParam(name = "favoritesOnly", required = false, defaultValue = "false") boolean favoritesOnly,
             @RequestParam(name = "followingOnly", required = false, defaultValue = "false") boolean followingOnly,
             @RequestParam(name = "lessThanTime", required = false) Integer lessThanTime,
@@ -54,6 +54,16 @@ public class SearchController {
             @RequestParam(name = "orderRecipe", required = false) String orderRecipe,
             @RequestParam(name = "limitResults", required = false) Integer limitResults,
             @RequestParam(name = "error", required = false) String error) {
+        
+        System.out.println("Favorites Only: " + favoritesOnly);
+        System.out.println("Following Only: " + followingOnly);
+        System.out.println("Less Than Time: " + lessThanTime);
+        System.out.println("Over Rating: " + overRating);
+        System.out.println("Meal Type: " + mealType);
+        System.out.println("Cuisine Type: " + cuisineType);
+        System.out.println("Order Chef: " + orderChef);
+        System.out.println("Order Recipe: " + orderRecipe);
+        System.out.println("Limit Results: " + limitResults);
 
         ModelAndView mv = new ModelAndView("search_results_page");
         String errorMessage = error;
@@ -61,11 +71,11 @@ public class SearchController {
         System.out.println("User is searching");
 
         try {
-            if (orderChef != null) {
+            if (orderChef.compareTo("") != 0) {
                 List<User> users = searchService.searchChefs(favoritesOnly, followingOnly, lessThanTime, overRating,
                         mealType, cuisineType, orderChef, limitResults, userService.getLoggedInUser().getUserId());
                 mv.addObject("users", users);
-            } else if (orderRecipe != null) {
+            } else if (orderRecipe.compareTo("") != 0) {
                 List<Recipe> recipes = searchService.searchRecipes(favoritesOnly, followingOnly, lessThanTime,
                         overRating, mealType, cuisineType, orderRecipe, limitResults, userService.getLoggedInUser().getUserId());
                 mv.addObject("recipes", recipes);
