@@ -53,7 +53,7 @@ public class RecipeService {
 
         List<Recipe> recipes = new ArrayList<>();
 
-       /*  final String sql1 = "UPDATE recipes SET view_count = view_count + 1 WHERE rec_id = ?;";
+       final String sql1 = "UPDATE recipe SET view_count = view_count + 1 WHERE rec_id = ?;";
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql1)) {
             pstmt.setString(1, rec_id);
@@ -67,7 +67,7 @@ public class RecipeService {
                 System.out.println("No rows updated. Check rec_id.");
             }
         }
-*/
+
 
         final String sql = "select * from recipe where rec_id = ?";
 
@@ -80,7 +80,7 @@ public class RecipeService {
                 while (rs.next()) {
                     String title = rs.getString("title");
                     String directions = rs.getString("directions");
-                    String image = rs.getString("image");
+                    String image_path = rs.getString("image_path");
                     int estim_time = rs.getInt("estim_time");
                     String meal_type = rs.getString("meal_type");
                     String cuisine_type = rs.getString("cuisine_type");
@@ -88,7 +88,7 @@ public class RecipeService {
 
 
                     // Create a new Recipe object and return it
-                     recipes.add( new Recipe(rec_id, title, directions, image, estim_time, rating,meal_type,cuisine_type,view_count,false));
+                     recipes.add( new Recipe(rec_id, title, directions, image_path, estim_time, rating,meal_type,cuisine_type,view_count,false));
                 }
             }
         }

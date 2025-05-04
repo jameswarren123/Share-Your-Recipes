@@ -159,12 +159,15 @@ public class ChefsService {
     // }
 
     public List<Chef> getChefsWithSubStatus() throws SQLException {
+        System.out.println("Yo");
         final String sql = "SELECT u.user_id, u.username, u.image_id, i.image_path, " +
                            "EXISTS (SELECT 1 FROM subscription s " +
                            "        WHERE s.subscriber_id = ? AND s.subscribed_id = u.user_id) AS isSubbed " +
                            "FROM user u " +
                            "JOIN image i ON u.image_id = i.image_id " +
                            "WHERE u.user_id != ?";
+
+  
     
         List<Chef> chefs = new ArrayList<>();
     
@@ -176,6 +179,7 @@ public class ChefsService {
             pstmt.setString(2, loggedInUserId);
     
             try (ResultSet rs = pstmt.executeQuery()) {
+                System.out.println("Sup");
                 while (rs.next()) {
                     String user_id = rs.getString("user_id");
                     String username = rs.getString("username");
