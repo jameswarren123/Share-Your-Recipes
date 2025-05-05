@@ -1,5 +1,8 @@
 package uga.group11.cs4370.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Recipe {
     private final String recipe_id;
     // private final String chef_id;
@@ -95,4 +98,34 @@ public class Recipe {
     public boolean isFavorite() {
         return is_favorite;
     }
+
+    public List<Boolean> getStars() {
+        int roundedStars = 0;
+        System.out.println("getStars is called");
+        System.out.println("Rating is: " + this.getRating());
+        try {
+            System.out.println("This rating is: " + this.rating);
+            roundedStars = (int) Math.round(Double.parseDouble(this.rating));
+            
+        } catch (NumberFormatException e) {
+            System.out.println("getStars is reached NumberForamatException");
+            // default to 0 if invalid
+        }
+        List<Boolean> starsList = new ArrayList<>();
+        for (int i = 0; i < roundedStars; i++) {
+            starsList.add(Boolean.TRUE);
+            System.out.println(starsList);
+        }
+        return starsList;
+    }
+    
+    public List<Integer> getStarCounts() {
+        List<Integer> counts = new ArrayList<>();
+        for (int i = 1; i <= 5; i++) {
+            counts.add(i);
+        }
+        return counts;
+    }
+    
+
 }

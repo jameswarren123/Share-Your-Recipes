@@ -74,10 +74,8 @@ public class ChefsService {
                     String cuisine_type = rs.getString("cuisine_type");
                     int view_count = rs.getInt("view_count");
                     
-                    
 
-
-                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating, meal_type, cuisine_type, view_count, false));
+                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating, meal_type, cuisine_type, view_count, recipeService.recipeFavorited(rec_id, userId)));
                 }
             }
         }
