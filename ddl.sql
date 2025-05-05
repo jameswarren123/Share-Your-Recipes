@@ -42,7 +42,7 @@ CREATE TABLE recipe (
 );
 
 -- 4. rating table
-CREATE TABLE rating (
+create table Rating (
     user_id INT,
     rec_id INT,
     rating INT,
