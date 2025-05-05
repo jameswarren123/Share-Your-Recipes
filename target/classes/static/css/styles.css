@@ -23,7 +23,7 @@ nav a {
   color: rgb(105, 105, 105);
   font-weight: bold;
   line-height: 2.5;
-  font-size: 18pt;
+  font-size: 13pt;
 }
 
 nav a:hover {
@@ -38,7 +38,8 @@ nav a:hover {
   background-color: #ffd6b0;
 }
 
-.nav-left, .nav-right {
+.nav-left,
+.nav-right {
   display: flex;
   gap: 16px;
 }
@@ -454,11 +455,11 @@ input[type="radio" i]:checked ~ label i {
   color: gold;
 }
 
-input[type = "checkStar"] {
+input[type="checkStar"] {
   content: url(Term-Project-CS4370\src\main\resources\static\images\FilledStar.png);
 }
 
-input[type = "emptyStar"] {
+input[type="emptyStar"] {
   content: url(Term-Project-CS4370\src\main\resources\static\images\EmptyStar.png);
 }
 
