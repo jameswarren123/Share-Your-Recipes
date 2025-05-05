@@ -80,6 +80,29 @@ public class ChefsService {
             }
         }
 
+          final String sql2 = "select * from recipe where user_id = ?";
+        if(recipes.isEmpty()){
+        try(Connection conn = dataSource.getConnection();
+        PreparedStatement pstmt = conn.prepareStatement(sql2)){
+            pstmt.setString(1, userId);
+            try(ResultSet rs = pstmt.executeQuery()){
+                while(rs.next()){
+                    String directions = rs.getString("directions");
+                    String title = rs.getString("title");
+                    int estim_time = rs.getInt("estim_time");
+                    String rec_id = rs.getString("rec_id");
+                    String image_path = rs.getString("image_path");
+                    String rating = recipeService.getRating(rs.getString("rec_id"));
+                    String meal_type = rs.getString("meal_type");
+                    String cuisine_type = rs.getString("cuisine_type");
+                    int view_count = rs.getInt("view_count");
+
+                    recipes.add(new Recipe(rec_id, title, directions, image_path, estim_time, rating, meal_type, cuisine_type, view_count, recipeService.recipeFavorited(rec_id, userId)));
+                }
+            }
+        }
+    }
+
         return recipes;
 
     }
