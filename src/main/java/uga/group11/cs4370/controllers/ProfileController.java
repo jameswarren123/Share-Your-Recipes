@@ -20,7 +20,7 @@ import uga.group11.cs4370.models.User;
 @Controller
 @RequestMapping("/profile")
 public class ProfileController {
-    
+
     private final UserService userService;
     private final RecipeService recipeService;
     private final ChefsService chefsService;
@@ -32,10 +32,13 @@ public class ProfileController {
         this.chefsService = chefsService;
     }
 
-    @GetMapping
-    public ModelAndView profileOfLoggedInUser(@RequestParam(name = "error", required = false) String error) throws SQLException {
+    @GetMapping /*("/{isCurrentUser}")*/
+    public ModelAndView profileOfLoggedInUser(/*@PathVariable("isCurrentUser") boolean isCurrentUser,*/
+            @RequestParam(name = "error", required = false) String error) throws SQLException {
         ModelAndView mv = new ModelAndView("profile_page");
         String user_id = userService.getLoggedInUser().getUserId();
+
+        //mv.addObject("isCurrentUser", isCurrentUser);
 
         User user = userService.getUser(user_id);
         mv.addObject("user", user);
@@ -52,10 +55,13 @@ public class ProfileController {
         return mv;
     }
 
-    @GetMapping("/{user_id}")
-    public ModelAndView profileOfSpecificUser(@PathVariable("user_id") String user_id) throws SQLException {
+    @GetMapping("/{user_id}/{isCurrentUser}")
+    public ModelAndView profileOfSpecificUser(@PathVariable("user_id") String user_id,
+            @PathVariable("isCurrentUser") boolean isCurrentUser) throws SQLException {
         ModelAndView mv = new ModelAndView("profile_page");
-        //System.out.println("User is attempting to view profile: " + user_id);
+        System.out.println("User is attempting to view profile: " + user_id);
+
+        mv.addObject("isCurrentUser", isCurrentUser);
 
         User user = userService.getUser(user_id);
         mv.addObject("user", user);
@@ -70,20 +76,20 @@ public class ProfileController {
         return mv;
     }
 
-    @GetMapping("{user_id}/sub/{isSubbed}")
-    public String followUnfollowUser(@PathVariable("user_id") String user_id,
-            @PathVariable("isSubbed") Boolean isSubbed) {
-        System.out.println("User is attempting to sub/unsub a chef:");
-        System.out.println("\tuser_id: " + user_id);
-        System.out.println("\tisSubbed: " + isSubbed);
+    // @GetMapping("{user_id}/sub/{isSubbed}")
+    // public String followUnfollowUser(@PathVariable("user_id") String user_id,
+    // @PathVariable("isSubbed") Boolean isSubbed) {
+    // // System.out.println("User is attempting to sub/unsub a chef:");
+    // // System.out.println("\tuser_id: " + user_id);
+    // // System.out.println("\tisSubbed: " + isSubbed);
 
-        try {
-            String loggedInUserId = userService.getLoggedInUser().getUserId();
-            chefsService.updateFollowStatus(loggedInUserId, user_id, isSubbed);
-        } catch (SQLException e) {
-            return "redirect:/chefs?error=Could not update sub status.";
-        }
+    // try {
+    // String loggedInUserId = userService.getLoggedInUser().getUserId();
+    // chefsService.updateFollowStatus(loggedInUserId, user_id, isSubbed);
+    // } catch (SQLException e) {
+    // return "redirect:/chefs?error=Could not update sub status.";
+    // }
 
-        return "redirect:/chefs";
-    }
+    // return "redirect:/chefs";
+    // }
 }
