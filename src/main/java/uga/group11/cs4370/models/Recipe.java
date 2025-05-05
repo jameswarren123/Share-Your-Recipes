@@ -121,7 +121,7 @@ public class Recipe {
     
     public List<Integer> getStarCounts() {
         List<Integer> counts = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 5; i >= 1; i--) {
             counts.add(i);
         }
         return counts;
