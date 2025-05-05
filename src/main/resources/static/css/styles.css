@@ -23,7 +23,7 @@ nav a {
   color: rgb(105, 105, 105);
   font-weight: bold;
   line-height: 2.5;
-  font-size: 18pt;
+  font-size: 13pt;
 }
 
 nav a:hover {
@@ -38,7 +38,8 @@ nav a:hover {
   background-color: #ffd6b0;
 }
 
-.nav-left, .nav-right {
+.nav-left,
+.nav-right {
   display: flex;
   gap: 16px;
 }
@@ -454,11 +455,11 @@ input[type="radio" i]:checked ~ label i {
   color: gold;
 }
 
-input[type = "checkStar"] {
+input[type="checkStar"] {
   content: url(Term-Project-CS4370\src\main\resources\static\images\FilledStar.png);
 }
 
-input[type = "emptyStar"] {
+input[type="emptyStar"] {
   content: url(Term-Project-CS4370\src\main\resources\static\images\EmptyStar.png);
 }
 
@@ -569,6 +570,65 @@ input[type = "emptyStar"] {
   background-color: #f99130;
 }
 /*======================CHEF_CSS================================*/
+/*======================PROFILE_CSS================================*/
+.profileImg-text {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* position: relative; */
+}
+
+.image-upload-wrapper {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+  transition: opacity 0.3s ease;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  text-align: center;
+}
+
+.image-upload-wrapper:hover .profile-image {
+  opacity: 0.3;
+}
+
+.image-upload-wrapper:hover .overlay-text {
+  opacity: 1;
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+/*======================PROFILE_CSS================================*/
 /*======================SEARCH_FORM_CSS========================*/
 .search_form {
   background-color: #fc7600;
