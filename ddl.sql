@@ -33,7 +33,7 @@ CREATE TABLE recipe (
     user_id INT,
     title VARCHAR(255) NOT NULL,
     directions TEXT,
-    image VARCHAR(255),
+    image_path VARCHAR(255),
     estim_time INT,
     meal_type VARCHAR(50),
     cuisine_type VARCHAR(50),
