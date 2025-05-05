@@ -270,4 +270,21 @@ public class RecipeService {
         }
         return favorited;
     }
+
+    public int getUserRatingForRecipe(String userId, String recId) throws SQLException {
+        final String sql = "SELECT rating FROM rating WHERE user_id = ? AND rec_id = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+            pstmt.setString(2, recId);
+    
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("rating");
+                }
+            }
+        }
+        return 0; // No rating yet
+    }
+    
 }
