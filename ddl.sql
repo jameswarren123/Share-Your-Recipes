@@ -42,11 +42,12 @@ CREATE TABLE recipe (
 );
 
 -- 4. rating table
-CREATE TABLE rating (
-    rate_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
+DROP TABLE IF EXISTS rating;
+create table Rating (
+     user_id INT,
     rec_id INT,
     rating INT,
+    PRIMARY KEY (user_id, rec_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (rec_id) REFERENCES recipe(rec_id)
 );
