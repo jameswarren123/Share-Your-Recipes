@@ -12,30 +12,64 @@ body {
   padding: 0;
   min-height: 100vh;
 }
+/*==================NAVBAR_CSS=============================*/
 nav {
-  background: var(--box-color);
-  padding: 16pt 0;
+  padding: 24pt 0;
   text-align: left;
 }
+
 nav a {
   text-decoration: none;
-  margin-right: 16pt;
   color: rgb(105, 105, 105);
   font-weight: bold;
-  display: inline-block;
+  line-height: 2.5;
+  font-size: 18pt;
 }
+
 nav a:hover {
   color: #000000;
 }
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: #ffd6b0;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  gap: 16px;
+}
+
+.separator-bottom {
+  background-color: #ffd6b0;
+  border-bottom: 2px solid #ff9e42;
+}
+
 .framed {
   border: 0.8pt solid var(--frame-color);
   border-radius: 4pt;
   width: 350pt;
 }
-.separator-bottom {
-  background-color: #ffd6b0;
-  border-bottom: 2px solid #ff9e42;
+.nav-button {
+  background-color: var(--box-color);
+  color: var(--action-item-color);
+  border: 2px solid #ff9e42;
+  border-radius: 16pt;
+  padding: 12pt 16pt 12pt 16pt;
+  margin: 4pt 6pt 4pt 6pt;
+  cursor: pointer;
+  /* white-space: nowrap; */
+  line-height: normal;
 }
+
+.nav-button:hover {
+  color: #ffbe81;
+  border-color: #ffbe81;
+}
+/*==================NAVBAR_CSS=============================*/
 .title-bar {
   font-size: 12pt;
   color: var(--action-item-color);
@@ -335,7 +369,7 @@ favorite-button {
   height: 40px;
   top: 28px;
   right: 8px;
-  cursor: pointer;;
+  cursor: pointer;
   transition: transform 0.2s ease;
 }
 
@@ -488,6 +522,14 @@ input[type = "emptyStar"] {
 }
 
 /* Text content */
+.profile-text {
+  /* font-weight: bold;
+  font-size: 18px;
+  color: #f99130; */
+  display: flex;
+  flex-direction: column;
+}
+
 .profile-text .username {
   font-weight: bold;
   font-size: 18px;
@@ -508,7 +550,6 @@ input[type = "emptyStar"] {
   gap: 4pt;
 }
 
-
 .sub-button {
   font-size: 20px;
   padding: 8px 12px;
@@ -527,5 +568,4 @@ input[type = "emptyStar"] {
 .sub-button:hover {
   background-color: #f99130;
 }
-
-
+/*======================CHEF_CSS================================*/

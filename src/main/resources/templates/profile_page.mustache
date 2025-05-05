@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+{{> fragments/html_header}}
+
+<body>
+    {{> fragments/top_bar}}
+    <h1>Profile Page</h1>
+    <img class="profile-image" src="{{user.image_path}}" alt="Profile Image">
+    <div class="profile-text">
+        <span class="username">{{user.username}}</span>
+    </div>
+    <div class="post-date">
+        Your Recipes:
+        <ul>
+            {{#recipes}}
+                <li>{{title}}</li>
+            {{/recipes}}
+        </ul>
+    </div>
+</body>
+</html>
