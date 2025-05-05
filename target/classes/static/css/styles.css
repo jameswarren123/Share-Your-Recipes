@@ -370,7 +370,6 @@ favorite-button {
   top: 28px;
   right: 8px;
   cursor: pointer;
-
   transition: transform 0.2s ease;
 }
 
@@ -438,6 +437,29 @@ input[type="radio" i]:checked ~ label i {
 .rating input[type="radio"]:checked + label i,
 .rating input[type="radio"]:checked ~ label i {
   color: #000000;
+}
+
+.rating-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 2px;
+}
+.rating-button i {
+  font-size: 1.5em;
+  color: #ccc;
+}
+.rating-button:hover i {
+  color: gold;
+}
+
+input[type = "checkStar"] {
+  content: url(Term-Project-CS4370\src\main\resources\static\images\FilledStar.png);
+}
+
+input[type = "emptyStar"] {
+  content: url(Term-Project-CS4370\src\main\resources\static\images\EmptyStar.png);
 }
 
 .image-expand {
