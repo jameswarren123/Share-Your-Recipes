@@ -50,7 +50,7 @@ public class SearchController {
             @RequestParam(name = "overRating", required = false) Float overRating,
             @RequestParam(name = "mealType", required = false) String mealType,
             @RequestParam(name = "cuisineType", required = false) String cuisineType,
-            @RequestParam(name = "orderChef", required = false) String orderChef,
+            //@RequestParam(name = "orderChef", required = false) String orderChef,
             @RequestParam(name = "orderRecipe", required = false) String orderRecipe,
             @RequestParam(name = "limitResults", required = false) Integer limitResults,
             @RequestParam(name = "error", required = false) String error) {
@@ -61,7 +61,7 @@ public class SearchController {
         System.out.println("Over Rating: " + overRating);
         System.out.println("Meal Type: " + mealType);
         System.out.println("Cuisine Type: " + cuisineType);
-        System.out.println("Order Chef: " + orderChef);
+        //System.out.println("Order Chef: " + orderChef);
         System.out.println("Order Recipe: " + orderRecipe);
         System.out.println("Limit Results: " + limitResults);
 
@@ -71,11 +71,12 @@ public class SearchController {
         System.out.println("User is searching");
 
         try {
-            if (orderChef.compareTo("") != 0) {
+            /*if (orderChef.compareTo("") != 0) {
                 List<User> users = searchService.searchChefs(favoritesOnly, followingOnly, lessThanTime, overRating,
                         mealType, cuisineType, orderChef, limitResults, userService.getLoggedInUser().getUserId());
                 mv.addObject("users", users);
-            } else if (orderRecipe.compareTo("") != 0) {
+            } else */
+            if (orderRecipe.compareTo("") != 0) {
                 List<Recipe> recipes = searchService.searchRecipes(favoritesOnly, followingOnly, lessThanTime,
                         overRating, mealType, cuisineType, orderRecipe, limitResults, userService.getLoggedInUser().getUserId());
                 mv.addObject("recipes", recipes);

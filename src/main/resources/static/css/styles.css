@@ -569,3 +569,53 @@ input[type = "emptyStar"] {
   background-color: #f99130;
 }
 /*======================CHEF_CSS================================*/
+/*======================SEARCH_FORM_CSS========================*/
+.search_form {
+  background-color: #fc7600;
+  margin-left: 15%;
+  margin-right: 15%;
+  margin-top: 30px;
+  padding-bottom: 25px;
+  padding-left: 40px;
+  padding-right: 45px;
+  padding-top: 20px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.search_form:hover {
+  transform: scale(1.001);
+}
+
+.search_form select,
+.search_form input {
+  width: 100%;
+  padding: 8pt 16pt;
+  margin-top: 5px;
+  border: 2px solid #ff9e42;
+  border-radius: 16pt;
+  box-sizing: border-box;
+}
+
+.search_form select:hover,
+.search_form input:hover {
+  border: 2px solid #ffbe81;
+}
+
+.search_form button {
+  background-color: #ffffff;
+  color: #505050;
+  border: 2px solid #797878;
+  border-radius: 16pt;
+  padding: 8pt 16pt;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.search_form button:hover {
+  border: 2px solid #a1a1a1;
+  background-color: #c0c0c0;
+}
+/*======================SEARCH_FORM_CSS========================*/

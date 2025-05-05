@@ -91,11 +91,11 @@ public class SearchService {
         String orderBy = "ORDER BY ";
         if (orderRecipe.compareTo("") != 0) {
             if (orderRecipe.equals("Highest Rated")) {
-                join.append("LEFT JOIN rating ON recipe.rec_id = rating.rec_id ");
+                //join.append("LEFT JOIN rating ON recipe.rec_id = rating.rec_id ");
                 orderBy += "avg_rating DESC ";
                 groupByNeeded = true;
             } else if (orderRecipe.equals("Lowest Rated")) {
-                join.append("LEFT JOIN rating ON recipe.rec_id = rating.rec_id ");
+                //join.append("LEFT JOIN rating ON recipe.rec_id = rating.rec_id ");
                 orderBy += "avg_rating ASC ";
                 groupByNeeded = true;
             } else if (orderRecipe.equals("Most Viewed")) {
@@ -151,7 +151,7 @@ public class SearchService {
                     String rec_id = rs.getString("rec_id");
                     String title = rs.getString("title");
                     String directions = rs.getString("directions");
-                    String image = rs.getString("image"); // Corrected column name
+                    String image = rs.getString("image_path");
                     int estim_time = rs.getInt("estim_time");
                     String meal_type = rs.getString("meal_type");
                     String cuisine_type = rs.getString("cuisine_type");
