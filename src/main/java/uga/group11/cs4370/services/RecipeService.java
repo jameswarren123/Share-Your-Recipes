@@ -33,7 +33,7 @@ public class RecipeService {
     }
 
     public String getRating(String rec_id) throws SQLException {
-        final String sql = "select round(avg(rating), 1) as average_rating from ratings where rec_id = ?;";
+        final String sql = "select round(avg(rating), 1) as average_rating from rating where rec_id = ?;";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -45,10 +45,10 @@ public class RecipeService {
                 }
 
             } catch (SQLException e) {
-                return "No Rating";
+                return "1";
             }
         }
-        return null;
+        return "0";
     }
 
     public List<Recipe> getRecipe(String rec_id) throws SQLException {
@@ -98,18 +98,23 @@ public class RecipeService {
     }
 
     public boolean rateRecipe(int count, String rec_id, User user) throws SQLException {
-        final String sql = "insert into ratings (user_id, rec_id, rating) values (?, ?, ?);";
-
+        final String sql = """
+            INSERT INTO rating (user_id, rec_id, rating)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE rating = VALUES(rating);
+        """;
+    
         try (Connection conn = dataSource.getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, user.getUserId());
             pstmt.setString(2, rec_id);
             pstmt.setInt(3, count);
-
+    
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         }
     }
+    
 
     public List<ExpandedRecipe> getUserExpRecipes(String userId) throws SQLException {
         List<ExpandedRecipe> recipes = new ArrayList<>();
@@ -250,26 +255,19 @@ public class RecipeService {
 
         return favoriteRecipes;
     }
-    // public List<Recipe> getAllRecipesWithFavoriteStatus(User user) throws SQLException {
-    //     List<Recipe> allRecipes = getUserRecipes(user.getUserId());  // Or a broader method if homepage shows all users’ recipes
-    //     List<Recipe> favorites = getFavoriteRecipe(user.getUserId());
-
-    //     // Create a quick lookup set of favorited recipe IDs
-    //     Set<String> favoriteIds = new HashSet<>();
-    //     for (Recipe fav : favorites) {
-    //         favoriteIds.add(fav.getRecipeId());
-    //     }
-
-    //     // Mark is_favorite = true for matching recipes
-    //     for (Recipe recipe : allRecipes) {
-    //         if (favoriteIds.contains(recipe.getRecipeId())) {
-    //             recipe.setFavorite(true);
-    //             System.out.println(recipe.getTitle() + " is a favorite!");
-    //         }
-    //         System.out.println("Recipe: " + recipe.getTitle() + " isFavorite? " + recipe.isFavorite());
-
-    //     }
-        
-    //     return allRecipes;
-    // }
+    
+    boolean recipeFavorited(String rec_id, String user_id) throws SQLException {
+        boolean favorited = false;
+        final String sql = "select count(*) as row_count from favorite where rec_id = ? and user_id = ?";
+        try (Connection conn = dataSource.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, rec_id);
+            pstmt.setString(2, user_id);
+            try(ResultSet rs = pstmt.executeQuery()) {
+                rs.next();
+                if(Integer.parseInt(rs.getString("row_count")) > 0) favorited = true;           
+            }
+        }
+        return favorited;
+    }
 }

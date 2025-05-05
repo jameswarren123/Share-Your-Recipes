@@ -1,3 +1,4 @@
+// === RecipeExpandController.java ===
 package uga.group11.cs4370.controllers;
 
 import java.net.URLEncoder;
@@ -10,16 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import uga.group11.cs4370.models.Recipe;
-import uga.group11.cs4370.models.User;
 import uga.group11.cs4370.services.ChefsService;
-import uga.group11.cs4370.services.UserService;
 import uga.group11.cs4370.services.RecipeService;
+import uga.group11.cs4370.services.UserService;
 
 @Controller
 @RequestMapping("/rexpand")
@@ -30,7 +29,7 @@ public class RecipeExpandController {
     private final ChefsService chefsService;
 
     @Autowired
-    public RecipeExpandController(UserService userService, RecipeService recipeService,ChefsService chefsService) {
+    public RecipeExpandController(UserService userService, RecipeService recipeService, ChefsService chefsService) {
         this.userService = userService;
         this.recipeService = recipeService;
         this.chefsService = chefsService;
@@ -59,7 +58,7 @@ public class RecipeExpandController {
 
     @GetMapping("/{rec_id}/stars/{count}")
     public String changeRating(@PathVariable("rec_id") String rec_id,
-            @PathVariable("count") int count) {
+                                @PathVariable("count") int count) {
         System.out.println("The user is attempting to rate recipe with id: " + rec_id + "; and rating: " + count);
 
         try {
@@ -67,14 +66,11 @@ public class RecipeExpandController {
             if (rateSuccess) {
                 return "redirect:/rexpand/" + rec_id;
             } else {
-                String message = URLEncoder.encode("Failed to rate the recipe. Please try again.",
-                        StandardCharsets.UTF_8);
+                String message = URLEncoder.encode("Failed to rate the recipe. Please try again.", StandardCharsets.UTF_8);
                 return "redirect:/?error=" + message;
             }
         } catch (Exception e) {
-            // Redirect the user with an error message if there was an error.
-            String message = URLEncoder.encode("Failed to rate the recipe. Please try again.",
-                    StandardCharsets.UTF_8);
+            String message = URLEncoder.encode("Failed to rate the recipe. Please try again.", StandardCharsets.UTF_8);
             return "redirect:/rexpand/" + rec_id + "?error=" + message;
         }
     }
