@@ -48,9 +48,9 @@ public class ChefsController {
     @GetMapping("{user_id}/sub/{isSubbed}")
     public String followUnfollowUser(@PathVariable("user_id") String user_id,
             @PathVariable("isSubbed") Boolean isSubbed) {
-        System.out.println("User is attempting to sub/unsub a chef:");
-        System.out.println("\tuser_id: " + user_id);
-        System.out.println("\tisSubbed: " + isSubbed);
+        // System.out.println("User is attempting to sub/unsub a chef:");
+        // System.out.println("\tuser_id: " + user_id);
+        // System.out.println("\tisSubbed: " + isSubbed);
 
         try {
             String loggedInUserId = userService.getLoggedInUser().getUserId();

@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +39,16 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("home_page");
 
         List<Recipe> recipes = new ArrayList<>();
+        String user_id = userService.getLoggedInUser().getUserId();
 
         try {
-            recipes = chefsService.getCreatedRecipes(userService.getLoggedInUser().getUserId());
+            recipes = chefsService.getCreatedRecipes(user_id);
         } catch (SQLException e) {
             System.out.println("Failed to retrieve recipes");
         }
+
+        mv.addObject("isCurrentUser", true);
+        mv.addObject("user_id", user_id);
         mv.addObject("recipes", recipes);
         mv.addObject("currentPath", "/");
         String errorMessage = error;
