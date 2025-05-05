@@ -33,7 +33,7 @@ CREATE TABLE recipe (
     user_id INT,
     title VARCHAR(255) NOT NULL,
     directions TEXT,
-    image VARCHAR(255),
+    image_path VARCHAR(255),
     estim_time INT,
     meal_type VARCHAR(50),
     cuisine_type VARCHAR(50),
@@ -43,10 +43,10 @@ CREATE TABLE recipe (
 
 -- 4. rating table
 CREATE TABLE rating (
-    rate_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     rec_id INT,
     rating INT,
+    PRIMARY KEY (user_id, rec_id),
     FOREIGN KEY (user_id) REFERENCES user(user_id),
     FOREIGN KEY (rec_id) REFERENCES recipe(rec_id)
 );

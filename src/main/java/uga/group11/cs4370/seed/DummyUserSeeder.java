@@ -53,6 +53,19 @@ public class DummyUserSeeder implements CommandLineRunner {
             "Trent Stephens", "Uma Dean", "Vince Curtis", "Wendy Stone", "Xander Doyle"
         };
 
+        try (Connection conn = dataSource.getConnection()) {
+            PreparedStatement imageStmt = conn.prepareStatement("""
+                INSERT INTO image (image_id, image_path)
+                VALUES (1, '/images/AchefImage.jpeg')
+                ON DUPLICATE KEY UPDATE image_path = VALUES(image_path)
+            """);
+            imageStmt.executeUpdate();
+            System.out.println("🖼️ Ensured default image exists with image_id = 1");
+        } catch (SQLException e) {
+            System.err.println("❌ Failed to insert default image: " + e.getMessage());
+        }
+        
+
         for (int i = 0; i < names.length; i++) {
             String fullName = names[i];
             String username = fullName.toLowerCase().replace(" ", ".");
