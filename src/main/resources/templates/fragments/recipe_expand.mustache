@@ -37,10 +37,16 @@
 
 <!-- Rating Stars (clickable) -->
 <div class="rating" data-user-rating="{{userRating}}" data-recipe-id="{{recipe_id}}">
+ 
   {{#starCounts}}
     <span class="rating-button" data-value="{{.}}">
       <i class="fa-solid fa-star"></i>
     </span>
   {{/starCounts}}
-  :User rating
+   :User rating
+
+</div>
+<h1 class="rate-h4">Directions:</h1>
+<div class="rate-dir">
+  <h4>{{directions}}</h4>
 </div>
