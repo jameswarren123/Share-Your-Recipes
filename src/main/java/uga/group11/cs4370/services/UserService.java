@@ -155,4 +155,27 @@ public class UserService {
 
         return user;
     }
+
+    public String getUserIdByUsername(String username) throws SQLException {
+        final String sql = "SELECT user_id FROM user WHERE username = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) return rs.getString("user_id");
+            }
+        }
+        return null;
+    }
+    
+    public boolean usernameExists(String username) throws SQLException {
+        final String sql = "SELECT COUNT(*) FROM user WHERE username = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next() && rs.getInt(1) > 0;
+            }
+        }
+    }
 }

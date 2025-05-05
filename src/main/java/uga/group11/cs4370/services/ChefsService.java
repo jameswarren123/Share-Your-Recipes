@@ -19,7 +19,7 @@ import uga.group11.cs4370.models.Recipe;
 import uga.group11.cs4370.models.User;
 
 @Service
-@SessionScope
+//@SessionScope
 public class ChefsService {
     private final DataSource dataSource;
     private final UserService userService;
@@ -206,5 +206,17 @@ public class ChefsService {
             stmt.executeUpdate();
         }
 
+    }
+    
+    public boolean recipeExistsForUser(String userId, String title) throws SQLException {
+        final String sql = "SELECT 1 FROM recipe WHERE user_id = ? AND title = ? LIMIT 1";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+            pstmt.setString(2, title);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next();
+            }
+        }
     }
 }

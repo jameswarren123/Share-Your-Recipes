@@ -42,10 +42,13 @@ public class RecipeExpandController {
         System.out.println("The user is attempting to view recipe with id: " + rec_id);
         ModelAndView mv = new ModelAndView("recipe_view_page");
         List<Recipe> recipes = new ArrayList<>();
+        
 
         try {
             recipes = recipeService.getRecipe(rec_id);
             mv.addObject("recipes", recipes);
+            int userRating = recipeService.getUserRatingForRecipe(userService.getLoggedInUser().getUserId(), rec_id);
+            mv.addObject("userRating", userRating);
         } catch (SQLException e) {
             System.out.println("failed to get recipe");
         }
